@@ -9,137 +9,313 @@ type buku struct {
 	judul         string
 	penulis       string
 	penerbit      string
-	tahunTerbit   int
-	jumlahHalaman int
+	tahunTerbit   string
+	jumlahHalaman string
+}
+
+type pinjamBuku struct {
+	isbn        int
+	tgl_pinjam  int
+	tgl_kembali int
+	denda       float64
 }
 
 type dataBuku [MAXBUKU]buku
+type dataPinjamBuku [MAXBUKU]pinjamBuku
 
-// Function Create Data Buku
-func TambahBuku(data *dataBuku) {
-	var judul, penulis, penerbit string
-	var isbn, tahunTerbit, jumlahHalaman int
-	var bukuBaru buku
-	var berhasil bool
+func menuUtama(data *dataBuku, n int) {
+	pilihan := 0
+	keluar := false
 
-	fmt.Println("TAMBAH BUKU BARU")
-	fmt.Println("!!! Ubah spasi dengan _ !!!")
-	fmt.Print("ISBN: ")
-	fmt.Scan(&isbn)
-	fmt.Print("Judul: ")
-	fmt.Scan(&judul)
-	fmt.Print("Penulis: ")
-	fmt.Scan(&penulis)
-	fmt.Print("Penerbit: ")
-	fmt.Scan(&penerbit)
-	fmt.Print("Tahun Terbit: ")
-	fmt.Scan(&tahunTerbit)
-	fmt.Print("Jumlah Halaman: ")
-	fmt.Scan(&jumlahHalaman)
+	for !keluar {
+		// Membersihkan layar sebelum menampilkan menu
+		fmt.Print("\033[H\033[2J")
 
-	bukuBaru = buku{
-		isbn:          isbn,
-		judul:         judul,
-		penulis:       penulis,
-		penerbit:      penerbit,
-		tahunTerbit:   tahunTerbit,
-		jumlahHalaman: jumlahHalaman,
-	}
+		// Menampilkan judul menu dengan garis pembatas
+		fmt.Println("===============================")
+		fmt.Println("|         Menu Utama          |")
+		fmt.Println("===============================")
 
-	berhasil = false
-	for i := 0; i < len(data); i++ {
-		/*
-			data[i] == buku {} digunakan untuk memeriksa apakah
-			data index ke i kosong.
-			buku{} digunakan untuk mewakili elemen yang kosong.
-			jika benar data[i] kosong, maka percabangan akan dijalankan.
-		*/
-		if (data)[i] == (buku{}) && !berhasil {
-			(data)[i] = bukuBaru
-			fmt.Println("Buku berhasil ditambahkan")
-			berhasil = true
+		// Menampilkan pilihan menu
+		fmt.Println("\n1. Data Buku")
+		fmt.Println("2. Pinjam Buku")
+		fmt.Println("3. Keluar")
+
+		// Meminta input user
+		fmt.Print("Masukkan pilihan: ")
+		fmt.Scan(&pilihan)
+
+		switch pilihan {
+		case 1:
+			menuBuku(data, n)
+		case 2:
+			menuPinjam(data, n)
+		case 3:
+			fmt.Println("Keluar dari program")
+			keluar = true
+		default:
+			fmt.Println("Pilihan tidak valid!")
 		}
-	}
 
-	if !berhasil {
-		fmt.Println("Error, Array sudah penuh")
+		// Menunggu user menekan Enter untuk melanjutkan
+		if !keluar {
+			fmt.Println("\nTekan Enter untuk kembali ke menu utama")
+			fmt.Scanln()
+		}
 	}
 }
 
-// Function Update Data Buku
-func UbahBuku(data *dataBuku, isbn int) {
-	var judulBaru, penulisBaru, penerbitBaru string
-	var tahunTerbitBaru, jumlahHalamanBaru int
-	var bukuDitemukan bool
+func menuPinjam(data *dataBuku, n int) {
+	fmt.Println("Belum dibuat brohh")
+}
+
+func menuBuku(data *dataBuku, n int) {
+	var isbn int
+	var judul, penulis, penerbit, tahunTerbit, jumlahHalaman string
+	pilihan := 0
+	keluar := false // Boolean variable to control the loop
+
+	for !keluar { // Continue looping until keluar is true
+		// Membersihkan layar sebelum menampilkan menu
+		fmt.Print("\033[H\033[2J")
+
+		// Menampilkan judul menu dengan garis pembatas
+		fmt.Println("===============================")
+		fmt.Println("|          Menu Buku          |")
+		fmt.Println("===============================")
+		fmt.Println("\n1. Tambah Buku")
+		fmt.Println("2. Tampilkan Daftar Buku")
+		fmt.Println("3. Ubah Buku")
+		fmt.Println("4. Hapus Buku")
+		fmt.Println("5. Kembali")
+		fmt.Print("Masukkan pilihan: ")
+		fmt.Scan(&pilihan)
+
+		switch pilihan {
+		case 1:
+			TambahBuku(data, &n)
+		case 2:
+			CetakBuku(data, &n)
+		case 3:
+			UbahBuku(data, isbn, judul, penulis, penerbit, tahunTerbit, jumlahHalaman, n)
+		case 4:
+			HapusBuku(*data, isbn, &n)
+		case 5:
+			menuUtama(data, n)
+			keluar = true // Set keluar to true to exit the loop
+		default:
+			fmt.Println("Pilihan tidak valid!")
+		}
+
+		if !keluar { // Check if we should continue showing the menu
+			// Tampilkan menu kembali setelah setiap operasi CRUD
+			fmt.Scanln() // Menunggu user menekan Enter
+		}
+	}
+}
+
+// Create Data Buku
+func TambahBuku(data *dataBuku, n *int) {
+	var isbn int
+	var bukuBaru buku
+	var isBerhasil, isISBN bool
+	var jumlahBukuBaru int
+
+	// Membersihkan layar sebelum menampilkan form tambah data
+	fmt.Print("\033[H\033[2J")
+
+	// Menampilkan judul form tambah data
+	fmt.Println("===============================")
+	fmt.Println("|    TAMBAH DATA BUKU BARU    |")
+	fmt.Println("===============================")
+	// Menjelaskan format input
+	fmt.Println("\n!!! Ubah spasi dengan _ !!!")
+
+	// Meminta input jumlah buku baru
+	fmt.Print("Masukkan jumlah buku yang akan ditambahkan: ")
+	fmt.Scan(&jumlahBukuBaru)
+	isBerhasil = false
+	for i := 0; i < jumlahBukuBaru; i++ {
+		// Meminta input ISBN
+		fmt.Print("\nISBN: ")
+		fmt.Scan(&bukuBaru.isbn)
+		isISBN = isUniqueISBN(data, isbn, *n)
+		for !isISBN {
+			fmt.Println("ISBN yang telah anda masukkan sudah dipakai. Silahkan masukkan ISBN yang lain.")
+			fmt.Print("Masukkan ISBN ulang: ")
+			fmt.Scan(&bukuBaru.isbn)
+			isUniqueISBN(data, bukuBaru.isbn, *n)
+		}
+		// Meminta input judul
+		fmt.Print("Judul: ")
+		fmt.Scan(&bukuBaru.judul)
+		// Meminta input penulis
+		fmt.Print("Penulis: ")
+		fmt.Scan(&bukuBaru.penulis)
+		// Meminta input penerbit
+		fmt.Print("Penerbit: ")
+		fmt.Scan(&bukuBaru.penerbit)
+		// Meminta input tahun terbit
+		fmt.Print("Tahun Terbit: ")
+		fmt.Scan(&bukuBaru.tahunTerbit)
+		// Meminta input jumlah halaman
+		fmt.Print("Jumlah Halaman: ")
+		fmt.Scan(&bukuBaru.jumlahHalaman)
+
+		if (*data)[*n] == (buku{}) && !isBerhasil {
+			(*data)[*n] = bukuBaru
+			fmt.Println("\nBuku berhasil ditambahkan")
+			isBerhasil = false
+			*n++ // Update the global count of books
+		} else {
+			fmt.Println("\nBuku gagal ditambahkan")
+			isBerhasil = true
+		}
+	}
+	fmt.Println("\nTekan Enter untuk kembali ke menu buku")
+	fmt.Scanln()
+}
+
+// Function to check if the ISBN is unique
+func isUniqueISBN(data *dataBuku, isbn int, n int) bool {
+	for i := 0; i < n; i++ {
+		if (*data)[i].isbn == isbn {
+			return false // ISBN is not unique
+		}
+	}
+	return true // ISBN is unique
+}
+
+// Update Data Buku
+func UbahBuku(data *dataBuku, isbn int, judulBaru string, penulisBaru string, penerbitBaru string, tahunTerbitBaru string, jumlahHalamanBaru string, n int) {
+	var index int
 
 	fmt.Println("UBAH DATA BUKU")
 	fmt.Println("Masukkan ISBN yang ingin diubah: ")
 	fmt.Scan(&isbn)
 
-	bukuIndex := -1
-	for i := 0; i < len(*data); i++ {
-		if (*data)[i].isbn == isbn {
-			bukuIndex = i
-		}
-	}
-
-	bukuDitemukan = bukuIndex != -1
-
-	if bukuDitemukan {
-		fmt.Println("Masukkan Judul Baru: ")
+	// update data
+	index = findDataWithSequentialSearch(*data, isbn)
+	if index != -1 {
+		fmt.Print("Masukkan Judul Baru: ")
 		fmt.Scan(&judulBaru)
-		fmt.Println("Masukkan Penulis Baru: ")
+		fmt.Print("Masukkan Penulis Baru: ")
 		fmt.Scan(&penulisBaru)
-		fmt.Println("Masukkan Penerbit Baru: ")
+		fmt.Print("Masukkan Penerbit Baru: ")
 		fmt.Scan(&penerbitBaru)
-		fmt.Println("Masukkan Tahun Terbit Baru: ")
+		fmt.Print("Masukkan Tahun Terbit Baru: ")
 		fmt.Scan(&tahunTerbitBaru)
-		fmt.Println("Masukkan Jumlah Halaman Baru: ")
+		fmt.Print("Masukkan Jumlah Halaman Baru: ")
 		fmt.Scan(&jumlahHalamanBaru)
 
-		(*data)[bukuIndex].judul = judulBaru
-		(*data)[bukuIndex].penulis = penulisBaru
-		(*data)[bukuIndex].penerbit = penerbitBaru
-		(*data)[bukuIndex].tahunTerbit = tahunTerbitBaru
-		(*data)[bukuIndex].jumlahHalaman = jumlahHalamanBaru
+		(*data)[index].judul = judulBaru
+		(*data)[index].penulis = penulisBaru
+		(*data)[index].penerbit = penerbitBaru
+		(*data)[index].tahunTerbit = tahunTerbitBaru
+		(*data)[index].jumlahHalaman = jumlahHalamanBaru
 		fmt.Println("Buku berhasil diubah")
 	} else {
 		fmt.Println("Error, Buku dengan ISBN tersebut tidak ditemukan")
 	}
 }
 
-func HapusBuku(data dataBuku, isbn string) dataBuku {
-	fmt.Println("Hapus Data Buku")
-	fmt.Print("Masukkan ISBN buku yang ingin dihapus: ")
-	fmt.Scanln(&isbn)
-
-	bukuIndex := -1
-	for i := bukuIndex + 1; i < len(data); i++ {
-		data[i-1] = data[i]
+func findDataWithSequentialSearch(data dataBuku, isbn int) int {
+	var index int = -1
+	var i int = 0
+	for i < len(data) && index == -1 {
+		if data[i].isbn == isbn {
+			index = i
+		}
+		i++
 	}
-	data[len(data)-1] = buku{}
-	fmt.Println("Data buku berhasil dihapus")
-	return data
+	return index
 }
 
-func CetakBuku(data *dataBuku) {
-	fmt.Println("DAFTAR BUKU")
-	fmt.Println("=======================")
-	for i := 0; i < len(data); i++ {
-		buku := (*data)[i]
-		if buku.judul != "" { // Periksa apakah buku memiliki judul
-			fmt.Printf("ISBN: %d\nJudul: %s\nPenulis: %s\nPenerbit: %s\nTahun Terbit: %d\nJumlah Halaman: %d\n", buku.isbn, buku.judul, buku.penulis, buku.penerbit, buku.tahunTerbit, buku.jumlahHalaman)
-			fmt.Println("=======================")
+func HapusBuku(data dataBuku, isbn int, n *int) {
+	var index int
+	fmt.Println("Hapus Data Buku")
+	fmt.Print("Masukkan ISBN buku yang ingin dihapus: ")
+	fmt.Scan(&isbn)
+
+	index = findDataWithBinarySearch(data, isbn, *n)
+	for i := index; i <= *n-1; i++ {
+		data[i] = data[i+1]
+	}
+	*n = *n - 1
+	fmt.Println("Data buku berhasil dihapus")
+}
+
+func findDataWithBinarySearch(data dataBuku, isbn int, n int) int {
+	var left, right, mid, index int
+	left = 0
+	right = n - 1
+	index = -1
+	for left <= right && index == -1 {
+		mid = (left + right) / 2
+		if isbn < data[mid].isbn {
+			right = mid - 1
+		} else if isbn > data[mid].isbn {
+			left = mid + 1
+		} else {
+			index = mid
 		}
 	}
+	return index
+}
+
+func CetakBuku(data *dataBuku, n *int) {
+	fmt.Print("\033[H\033[2J")
+
+	// Menampilkan judul daftar buku
+	fmt.Println("===============================")
+	fmt.Println("|         DAFTAR BUKU         |")
+	fmt.Println("===============================")
+	selectionSort(data, n)
+	if *n == 0 {
+		// Menampilkan pesan jika tidak ada data buku
+		fmt.Println("\nTidak ada data buku")
+		fmt.Println("\nTekan Enter untuk kembali ke menu utama")
+		fmt.Scanln()
+	} else {
+		// Menampilkan daftar buku
+		for i := 0; i < *n; i++ {
+			fmt.Println()
+			buku := (*data)[i]
+			if buku.judul != "" { // Periksa apakah buku memiliki judul
+				fmt.Printf("ISBN: %d\n", buku.isbn)
+				fmt.Printf("Judul: %s\n", buku.judul)
+				fmt.Printf("Penulis: %s\n", buku.penulis)
+				fmt.Printf("Penerbit: %s\n", buku.penerbit)
+				fmt.Printf("Tahun Terbit: %d\n", buku.tahunTerbit)
+				fmt.Printf("Jumlah Halaman: %d\n", buku.jumlahHalaman)
+				fmt.Println("=======================")
+			}
+		}
+		fmt.Println("\nTekan Enter untuk kembali ke menu utama")
+		fmt.Scanln()
+	}
+}
+
+func selectionSort(data *dataBuku, n *int) {
+    for i := 0; i < *n-1; i++ {
+        minIndex := i
+        for j := i + 1; j < *n; j++ {
+            if (*data)[j].isbn < (*data)[minIndex].isbn {
+                minIndex = j
+            }
+        }
+
+        if i != minIndex {
+            (*data)[i], (*data)[minIndex] = (*data)[minIndex], (*data)[i]
+        }
+    }
 }
 
 func main() {
 	var data dataBuku
-	var isbn int
-	TambahBuku(&data)
-	CetakBuku(&data)
-	UbahBuku(&data, isbn)
-	CetakBuku(&data)
-	// HapusBuku(data, isbn)
+	var nData int
+	// var isbn, tahunTerbit, jumlahHalaman int
+	// var judul, penulis, penerbit string
+	// create data
+	menuUtama(&data, nData)
 }
