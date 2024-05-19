@@ -40,6 +40,175 @@ type dataAdmin [MAXBUKU]admin
 type dataBuku [MAXBUKU]buku
 type dataPinjamBuku [MAXBUKU]pinjamBuku
 
+func ViewBukuMenu() {
+	// Membersihkan layar sebelum menampilkan menu
+	fmt.Print("\033[H\033[2J")
+
+	// Menampilkan judul menu dengan garis pembatas
+	fmt.Println("===============================")
+	fmt.Println("|          Menu Buku          |")
+	fmt.Println("===============================")
+	fmt.Println("\n1. Tampilkan Daftar Buku")
+	fmt.Println("2. Tambah Data Buku")
+	fmt.Println("3. Ubah Data Buku")
+	fmt.Println("4. Hapus Data Buku")
+	fmt.Println("5. Pencarian Data Buku")
+	fmt.Println("6. Kembali")
+	fmt.Print("Masukkan pilihan (1/2/3/4/5/6): ")
+}
+
+func ViewDeleteDataBukuMenu() {
+	// Membersihkan layar sebelum menampilkan menu
+	fmt.Print("\033[H\033[2J")
+
+	// Menampilkan judul menu dengan garis pembatas
+	fmt.Println("================================")
+	fmt.Println("|     Menu Hapus Data Buku     |")
+	fmt.Println("================================")
+	fmt.Println("\n1. Hapus Data Buku Berdasarkan ISBN")
+	fmt.Println("2. Hapus Data Buku Berdasarkan Judul")
+	fmt.Println("3. Hapus Data Buku Berdasarkan Penulis")
+	fmt.Println("4. Hapus Data Buku Berdasarkan Tahun Terbit")
+	fmt.Println("5. Hapus Semua Data Buku")
+	fmt.Println("6. Kembali ke Menu Utama")
+	fmt.Print("Masukkan Pilihan (1/2/3/4/5/6): ")
+}
+
+func ViewShowDataBukuMenu() {
+	// Membersihkan layar sebelum menampilkan menu
+	fmt.Print("\033[H\033[2J")
+
+	// Menampilkan judul menu dengan garis pembatas
+	fmt.Println("================================")
+	fmt.Println("|     Menu Cetak Data Buku     |")
+	fmt.Println("================================")
+	fmt.Println("\n1. Tampilkan Semua Data Buku")
+	fmt.Println("2. Tampilkan Data Buku Berdasarkan Kategori")
+	fmt.Println("3. Kembali ke Menu Utama")
+	fmt.Print("Masukkan Pilihan (1/2/3): ")
+}
+
+func ViewShowDataBukuByKategoriMenu() {
+	// Membersihkan layar sebelum menampilkan menu
+	fmt.Print("\033[H\033[2J")
+
+	// Menampilkan judul menu dengan garis pembatas
+	fmt.Println("=====================================================")
+	fmt.Println("|     Menu Cetak Data Buku Berdasarkan Kategori     |")
+	fmt.Println("=====================================================")
+	fmt.Println("\n1. Tampilkan Data Buku Berdasarkan Judul")
+	fmt.Println("2. Tampilkan Data Buku Berdasarkan Penulis")
+	fmt.Println("3. Tampilkan Data Buku Berdasarkan Penerbit")
+	fmt.Println("4. Tampilkan Data Buku Berdasarkan Tahun Terbit")
+	fmt.Println("5. Kembali ke Menu Utama")
+	fmt.Print("Masukkan Pilihan (1/2/3/4/5): ")
+}
+
+func ViewCreateDataBuku() {
+	// Membersihkan layar sebelum menampilkan form tambah data
+	fmt.Print("\033[H\033[2J")
+
+	// Menampilkan judul form tambah data
+	fmt.Println("===============================")
+	fmt.Println("|    TAMBAH DATA BUKU BARU    |")
+	fmt.Println("===============================")
+}
+
+func ViewUpdateDataBuku() {
+	// Membersihkan layar sebelum menampilkan form tambah data
+	fmt.Print("\033[H\033[2J")
+
+	// Menampilkan judul form tambah data
+	fmt.Println("===============================")
+	fmt.Println("|       UBAH DATA BUKU        |")
+	fmt.Println("===============================")
+}
+
+func ViewDeleteDataBuku() {
+	// Membersihkan layar sebelum menampilkan form tambah data
+	fmt.Print("\033[H\033[2J")
+
+	// Menampilkan judul form tambah data
+	fmt.Println("===============================")
+	fmt.Println("|        HAPUS DATA BUKU      |")
+	fmt.Println("===============================")
+}
+
+func ViewSearchDataBuku() {
+	// Membersihkan layar sebelum menampilkan form tambah data
+	fmt.Print("\033[H\033[2J")
+
+	// Menampilkan judul form tambah data
+	fmt.Println("===============================")
+	fmt.Println("|       CARI DATA BUKU        |")
+	fmt.Println("===============================")
+}
+
+func ViewShowDataBuku() {
+	fmt.Print("\033[H\033[2J")
+
+	// Menampilkan judul daftar buku
+	fmt.Println("===============================")
+	fmt.Println("|         DAFTAR BUKU         |")
+	fmt.Println("===============================")
+}
+
+func ViewAdminMenu() {
+	// Membersihkan layar sebelum menampilkan menu
+	fmt.Print("\033[H\033[2J")
+
+	// Menampilkan judul menu dengan garis pembatas
+	fmt.Println("===============================")
+	fmt.Println("|         Menu Admin          |")
+	fmt.Println("===============================")
+
+	// Menampilkan pilihan menu
+	fmt.Println("\n1. Login")
+	fmt.Println("2. Register")
+	fmt.Println("3. Keluar")
+
+	// Meminta input user
+	fmt.Print("Masukkan pilihan (1/2/3): ")
+}
+
+func ViewLoginAdmin() {
+	// Membersihkan layar sebelum menampilkan menu
+	fmt.Print("\033[H\033[2J")
+
+	// Menampilkan judul menu dengan garis pembatas
+	fmt.Println("===============================")
+	fmt.Println("|         Login Admin         |")
+	fmt.Println("===============================")
+}
+
+func ViewRegisterAdmin() {
+	// Membersihkan layar sebelum menampilkan menu
+	fmt.Print("\033[H\033[2J")
+
+	// Menampilkan judul menu dengan garis pembatas
+	fmt.Println("===============================")
+	fmt.Println("|         Register Admin      |")
+	fmt.Println("===============================")
+}
+
+func ViewMainMenu() {
+	// Membersihkan layar sebelum menampilkan menu
+	fmt.Print("\033[H\033[2J")
+
+	// Menampilkan judul menu dengan garis pembatas
+	fmt.Println("===============================")
+	fmt.Println("|         Menu Utama          |")
+	fmt.Println("===============================")
+
+	// Menampilkan pilihan menu
+	fmt.Println("\n1. Data Buku")
+	fmt.Println("2. Pinjam Buku")
+	fmt.Println("3. Kembali")
+
+	// Meminta input user
+	fmt.Print("Masukkan pilihan (1/2/3): ")
+}
+
 func login(dataAdmin *dataAdmin) {
 	var dataBuku dataBuku
 	var dataPinjam dataPinjamBuku
@@ -51,6 +220,7 @@ func login(dataAdmin *dataAdmin) {
 	if jumlahDataAdmin == 0 {
 		ViewLoginAdmin()
 		fmt.Println("\nData admin masih kosong!")
+		fmt.Println("Silahkan register terlebih dahulu")
 		fmt.Scanln()
 	} else {
 		ViewLoginAdmin()
@@ -80,7 +250,6 @@ func login(dataAdmin *dataAdmin) {
 	}
 	fmt.Println("\nTekan Enter untuk kembali ke menu buku")
 	fmt.Scanln()
-
 }
 
 func registration(dataAdmin *dataAdmin) {
@@ -135,7 +304,6 @@ func AdminMenu(dataAdmin *dataAdmin) {
 	}
 }
 
-// menu utama
 func MainMenu(dataBuku *dataBuku, dataPinjam *dataPinjamBuku) {
 	pilihan := 0
 	keluar := false
@@ -166,167 +334,6 @@ func MainMenu(dataBuku *dataBuku, dataPinjam *dataPinjamBuku) {
 	}
 }
 
-func ViewAdminMenu() {
-	// Membersihkan layar sebelum menampilkan menu
-	fmt.Print("\033[H\033[2J")
-
-	// Menampilkan judul menu dengan garis pembatas
-	fmt.Println("===============================")
-	fmt.Println("|         Menu Admin          |")
-	fmt.Println("===============================")
-
-	// Menampilkan pilihan menu
-	fmt.Println("\n1. Login")
-	fmt.Println("2. Register")
-	fmt.Println("3. Keluar")
-
-	// Meminta input user
-	fmt.Print("Masukkan pilihan (1/2/3): ")
-}
-
-func ViewLoginAdmin() {
-	// Membersihkan layar sebelum menampilkan menu
-    fmt.Print("\033[H\033[2J")
-
-    // Menampilkan judul menu dengan garis pembatas
-    fmt.Println("===============================")
-    fmt.Println("|         Login Admin         |")
-    fmt.Println("===============================")
-}
-
-func ViewRegisterAdmin() {
-	// Membersihkan layar sebelum menampilkan menu
-    fmt.Print("\033[H\033[2J")
-
-    // Menampilkan judul menu dengan garis pembatas
-    fmt.Println("===============================")
-    fmt.Println("|         Register Admin      |")
-    fmt.Println("===============================")
-}
-
-// tampilan menu utama
-func ViewMainMenu() {
-	// Membersihkan layar sebelum menampilkan menu
-	fmt.Print("\033[H\033[2J")
-
-	// Menampilkan judul menu dengan garis pembatas
-	fmt.Println("===============================")
-	fmt.Println("|         Menu Utama          |")
-	fmt.Println("===============================")
-
-	// Menampilkan pilihan menu
-	fmt.Println("\n1. Data Buku")
-	fmt.Println("2. Pinjam Buku")
-	fmt.Println("3. Kembali")
-
-	// Meminta input user
-	fmt.Print("Masukkan pilihan (1/2/3): ")
-}
-
-// tampilan menu buku
-func ViewBukuMenu() {
-	// Membersihkan layar sebelum menampilkan menu
-	fmt.Print("\033[H\033[2J")
-
-	// Menampilkan judul menu dengan garis pembatas
-	fmt.Println("===============================")
-	fmt.Println("|          Menu Buku          |")
-	fmt.Println("===============================")
-	fmt.Println("\n1. Tampilkan Daftar Buku")
-	fmt.Println("2. Tambah Data Buku")
-	fmt.Println("3. Ubah Data Buku")
-	fmt.Println("4. Hapus Data Buku")
-	fmt.Println("5. Pencarian Data Buku")
-	fmt.Println("6. Kembali")
-	fmt.Print("Masukkan pilihan (1/2/3/4/5/6): ")
-}
-
-func ViewDeleteDataBukuMenu() {
-	// Membersihkan layar sebelum menampilkan menu
-	fmt.Print("\033[H\033[2J")
-
-	// Menampilkan judul menu dengan garis pembatas
-	fmt.Println("================================")
-	fmt.Println("|     Menu Hapus Data Buku     |")
-	fmt.Println("================================")
-	fmt.Println("\n1. Hapus Data Buku Berdasarkan ISBN")
-	fmt.Println("2. Hapus Data Buku Berdasarkan Judul")
-	fmt.Println("3. Hapus Data Buku Berdasarkan Penulis")
-	fmt.Println("4. Hapus Data Buku Berdasarkan Tahun Terbit")
-	fmt.Println("5. Hapus Semua Data Buku")
-	fmt.Println("6. Kembali ke Menu Utama")
-	fmt.Print("Masukkan Pilihan (1/2/3/4/5/6): ")
-}
-
-func ViewReadDataBukuMenu() {
-	// Membersihkan layar sebelum menampilkan menu
-	fmt.Print("\033[H\033[2J")
-
-	// Menampilkan judul menu dengan garis pembatas
-	fmt.Println("================================")
-	fmt.Println("|     Menu Cetak Data Buku     |")
-	fmt.Println("================================")
-	fmt.Println("\n1. Tampilkan Semua Data Buku")
-	fmt.Println("2. Tampilkan Data Buku Berdasarkan Judul")
-	fmt.Println("3. Tampilkan Data Buku Berdasarkan Penulis")
-	fmt.Println("4. Tampilkan Data Buku Berdasarkan Penerbit")
-	fmt.Println("5. Tampilkan Data Buku Berdasarkan Tahun Terbit")
-	fmt.Println("6. Kembali ke Menu Utama")
-	fmt.Print("Masukkan Pilihan (1/2/3/4/5/6): ")
-}
-
-// tampilan prosedur menambahkan data buku
-func ViewCreateDataBuku() {
-	// Membersihkan layar sebelum menampilkan form tambah data
-	fmt.Print("\033[H\033[2J")
-
-	// Menampilkan judul form tambah data
-	fmt.Println("===============================")
-	fmt.Println("|    TAMBAH DATA BUKU BARU    |")
-	fmt.Println("===============================")
-}
-
-// tampilan prosedur mengubah data buku
-func ViewUpdateDataBuku() {
-	// Membersihkan layar sebelum menampilkan form tambah data
-	fmt.Print("\033[H\033[2J")
-
-	// Menampilkan judul form tambah data
-	fmt.Println("===============================")
-	fmt.Println("|       UBAH DATA BUKU        |")
-	fmt.Println("===============================")
-}
-
-// tampilan prosedur menghapus data buku
-func ViewDeleteDataBuku() {
-	// Membersihkan layar sebelum menampilkan form tambah data
-	fmt.Print("\033[H\033[2J")
-
-	// Menampilkan judul form tambah data
-	fmt.Println("===============================")
-	fmt.Println("|        HAPUS DATA BUKU      |")
-	fmt.Println("===============================")
-}
-
-func ViewSearchDataBuku() {
-	// Membersihkan layar sebelum menampilkan form tambah data
-	fmt.Print("\033[H\033[2J")
-
-	// Menampilkan judul form tambah data
-	fmt.Println("===============================")
-	fmt.Println("|       CARI DATA BUKU        |")
-	fmt.Println("===============================")
-}
-
-func ViewReadDataBuku() {
-	fmt.Print("\033[H\033[2J")
-
-	// Menampilkan judul daftar buku
-	fmt.Println("===============================")
-	fmt.Println("|         DAFTAR BUKU         |")
-	fmt.Println("===============================")
-}
-
 func BukuMenu(dataBuku *dataBuku, dataPinjam *dataPinjamBuku) {
 	pilihan := 0
 	keluar := false // Boolean variable to control the loop
@@ -337,9 +344,9 @@ func BukuMenu(dataBuku *dataBuku, dataPinjam *dataPinjamBuku) {
 
 		switch pilihan {
 		case 1:
-			ReadDataBuku(dataBuku)
+			ShowDataBukuMenu(dataBuku, dataPinjam)
 		case 2:
-			CreateDataBuku(dataBuku)
+			AddDataBuku(dataBuku)
 		case 3:
 			UpdateDataBuku(dataBuku)
 		case 4:
@@ -362,18 +369,18 @@ func BukuMenu(dataBuku *dataBuku, dataPinjam *dataPinjamBuku) {
 	}
 }
 
-func ReadDataBukuMenu(dataBuku *dataBuku, dataPinjam *dataPinjamBuku) {
+func ShowDataBukuMenu(dataBuku *dataBuku, dataPinjam *dataPinjamBuku) {
 	pilihan := 0
 	keluar := false
 
 	for !keluar {
-		ViewReadDataBukuMenu()
+		ViewShowDataBukuMenu()
 		fmt.Scan(&pilihan)
 		switch pilihan {
 		case 1:
-			ReadDataBuku(dataBuku)
+			ShowDataBuku(dataBuku)
 		case 2:
-			ReadDataBukuByKategoriMenu(dataBuku, dataPinjam)
+			ShowDataBukuByKategoriMenu(dataBuku, dataPinjam)
 		case 3:
 			BukuMenu(dataBuku, dataPinjam)
 			keluar = true
@@ -387,6 +394,39 @@ func ReadDataBukuMenu(dataBuku *dataBuku, dataPinjam *dataPinjamBuku) {
 	if !keluar { // Check if we should continue showing the menu
 		// Tampilkan menu kembali setelah setiap operasi CRUD
 		fmt.Scanln() // Menunggu user menekan Enter
+	}
+}
+
+func ShowDataBukuByKategoriMenu(dataBuku *dataBuku, dataPinjam *dataPinjamBuku) {
+	pilihan := 0
+	keluar := false
+
+	for !keluar {
+		ViewShowDataBukuByKategoriMenu()
+		fmt.Scan(&pilihan)
+
+		switch pilihan {
+		case 1:
+			ShowDataBukuByJudul(dataBuku)
+		case 2:
+			ShowDataBukuByPenulis(dataBuku)
+		case 3:
+			ShowDataBukuByPenerbit(dataBuku)
+		case 4:
+			ShowDataBukuByTahunTerbit(dataBuku)
+		case 5:
+			BukuMenu(dataBuku, dataPinjam)
+			keluar = true
+		default:
+			fmt.Println("Pilihan tidak valid!")
+			fmt.Print("Tolong masukkan pilihan kembali: ")
+			fmt.Scan(&pilihan)
+		}
+
+		if !keluar { // Check if we should continue showing the menu
+			// Tampilkan menu kembali setelah setiap operasi CRUD
+			fmt.Scanln() // Menunggu user menekan Enter
+		}
 	}
 }
 
@@ -425,41 +465,7 @@ func DeleteDataBukuMenu(dataBuku *dataBuku, dataPinjam dataPinjamBuku) {
 	}
 }
 
-func ReadDataBukuByKategoriMenu(dataBuku *dataBuku, dataPinjam *dataPinjamBuku) {
-	pilihan := 0
-	keluar := false
-
-	for !keluar {
-		ViewReadDataBukuMenu()
-		fmt.Scan(&pilihan)
-
-		switch pilihan {
-		case 1:
-			ReadDataBukuByJudul(dataBuku)
-		case 2:
-			ReadDataBukuByPenulis(dataBuku)
-		case 3:
-			ReadDataBukuByPenerbit(dataBuku)
-		case 4:
-			ReadDataBukuByTahunTerbit(dataBuku)
-		case 5:
-			BukuMenu(dataBuku, dataPinjam)
-			keluar = true
-		default:
-			fmt.Println("Pilihan tidak valid!")
-			fmt.Print("Tolong masukkan pilihan kembali: ")
-			fmt.Scan(&pilihan)
-		}
-
-		if !keluar { // Check if we should continue showing the menu
-			// Tampilkan menu kembali setelah setiap operasi CRUD
-			fmt.Scanln() // Menunggu user menekan Enter
-		}
-	}
-}
-
-// menambahkan data buku
-func CreateDataBuku(data *dataBuku) {
+func AddDataBuku(data *dataBuku) {
 	var bukuBaru buku
 	var inputJumlahDataBuku int
 	var isBerhasil bool
@@ -519,22 +525,22 @@ func CreateDataBuku(data *dataBuku) {
 	fmt.Scanln()
 }
 
-// mencetak data buku
-func ReadDataBuku(data *dataBuku) {
+func ShowDataBuku(data *dataBuku) {
 	// SortingDataBukuByTahunTerbit(data)
 	if jumlahDataBuku == 0 {
-		ViewReadDataBuku()
+		ViewShowDataBuku()
 		// Menampilkan pesan jika tidak ada data buku
 		fmt.Println("\nTidak ada data buku")
 		fmt.Println("\nTekan Enter untuk kembali ke menu buku")
 		fmt.Scanln()
 	} else {
-		ViewReadDataBuku()
+		ViewShowDataBuku()
 		// Menampilkan daftar buku
+		fmt.Println("\nSemua Daftar Buku:")
 		for i := 0; i < jumlahDataBuku; i++ {
 			fmt.Println()
 			buku := (*data)[i]
-			if buku.judul != "" { // Periksa apakah buku memiliki judul
+			if buku.isbn != "" { // Periksa apakah buku memiliki judul
 				fmt.Printf("ISBN		: %s\n", buku.isbn)
 				fmt.Printf("Judul		: %s\n", buku.judul)
 				fmt.Printf("Penulis		: %s\n", buku.penulis)
@@ -552,57 +558,147 @@ func ReadDataBuku(data *dataBuku) {
 		fmt.Println("\nTekan Enter untuk kembali ke menu utama")
 		fmt.Scanln()
 	}
-}
-
-func ReadDataBukuByJudul(data *dataBuku) {
-	// Temporary variable for swapping
-	var temp buku
-
-	// Bubble sort algorithm to sort books by title
-	for i := 0; i < jumlahDataBuku-1; i++ {
-		for j := 0; j < jumlahDataBuku-i-1; j++ {
-			if (*data)[j].judul > (*data)[j+1].judul {
-				// Swap the books
-				temp = (*data)[j]
-				(*data)[j] = (*data)[j+1]
-				(*data)[j+1] = temp
-			}
-		}
-	}
-
-	// Print sorted book data
-	fmt.Println("\nDaftar Buku Berdasarkan Judul:")
-	for i := 0; i < jumlahDataBuku; i++ {
-		buku := (*data)[i]
-		if buku.judul != "" { // Check if the book has a title
-			fmt.Printf("ISBN            : %s\n", buku.isbn)
-			fmt.Printf("Judul           : %s\n", buku.judul)
-			fmt.Printf("Penulis         : %s\n", buku.penulis)
-			fmt.Printf("Penerbit        : %s\n", buku.penerbit)
-			fmt.Printf("Tahun Terbit    : %d\n", buku.tahunTerbit)
-			fmt.Printf("Jumlah Halaman  : %d\n", buku.jumlahHalaman)
-			if buku.status == true {
-				fmt.Printf("Status Buku     : %s\n", "Buku tersedia")
-			} else {
-				fmt.Printf("Status Buku     : %s\n", "Buku sedang dipinjam")
-			}
-			fmt.Println("===================================")
-		}
-	}
-	fmt.Println("\nTekan Enter untuk kembali ke menu utama")
 	fmt.Scanln()
 }
 
-func ReadDataBukuByPenulis(data *dataBuku) {
-
+func ShowDataBukuByJudul(data *dataBuku) {
+	if jumlahDataBuku == 0 {
+		ViewShowDataBuku()
+		// Menampilkan pesan jika tidak ada data buku
+		fmt.Println("\nTidak ada data buku")
+		fmt.Println("\nTekan Enter untuk kembali ke menu buku")
+		fmt.Scanln()
+	} else {
+		ViewShowDataBuku()
+		// Bubble sort algorithm to sort books by title
+		SortingDataBukuByJudul(data)
+		// Print sorted book data
+		fmt.Println("\nDaftar Buku Berdasarkan Judul:")
+		for i := 0; i < jumlahDataBuku; i++ {
+			buku := data[i]
+			if buku.judul != "" { // Check if the book has a title
+				fmt.Printf("ISBN            : %s\n", buku.isbn)
+				fmt.Printf("Judul           : %s\n", buku.judul)
+				fmt.Printf("Penulis         : %s\n", buku.penulis)
+				fmt.Printf("Penerbit        : %s\n", buku.penerbit)
+				fmt.Printf("Tahun Terbit    : %d\n", buku.tahunTerbit)
+				fmt.Printf("Jumlah Halaman  : %d\n", buku.jumlahHalaman)
+				if buku.status == true {
+					fmt.Printf("Status Buku     : %s\n", "Buku tersedia")
+				} else {
+					fmt.Printf("Status Buku     : %s\n", "Buku sedang dipinjam")
+				}
+				fmt.Println("===================================")
+			}
+		}
+		fmt.Println("\nTekan Enter untuk kembali ke menu utama")
+		fmt.Scanln()
+	}
 }
 
-func ReadDataBukuByPenerbit(data *dataBuku) {
-
+func ShowDataBukuByPenulis(data *dataBuku) {
+	if jumlahDataBuku == 0 {
+		ViewShowDataBuku()
+		// Menampilkan pesan jika tidak ada data buku
+		fmt.Println("\nTidak ada data buku")
+		fmt.Println("\nTekan Enter untuk kembali ke menu buku")
+		fmt.Scanln()
+	} else {
+		ViewShowDataBuku()
+		// Bubble sort algorithm to sort books by title
+		SortingDataBukuByPenulis(data)
+		// Print sorted book data
+		fmt.Println("\nDaftar Buku Berdasarkan Penulis:")
+		for i := 0; i < jumlahDataBuku; i++ {
+			buku := data[i]
+			if buku.penulis != "" { // Check if the book has a title
+				fmt.Printf("ISBN            : %s\n", buku.isbn)
+				fmt.Printf("Judul           : %s\n", buku.judul)
+				fmt.Printf("Penulis         : %s\n", buku.penulis)
+				fmt.Printf("Penerbit        : %s\n", buku.penerbit)
+				fmt.Printf("Tahun Terbit    : %d\n", buku.tahunTerbit)
+				fmt.Printf("Jumlah Halaman  : %d\n", buku.jumlahHalaman)
+				if buku.status == true {
+					fmt.Printf("Status Buku     : %s\n", "Buku tersedia")
+				} else {
+					fmt.Printf("Status Buku     : %s\n", "Buku sedang dipinjam")
+				}
+				fmt.Println("===================================")
+			}
+		}
+		fmt.Println("\nTekan Enter untuk kembali ke menu utama")
+		fmt.Scanln()
+	}
 }
 
-func ReadDataBukuByTahunTerbit(data *dataBuku) {
+func ShowDataBukuByPenerbit(data *dataBuku) {
+	if jumlahDataBuku == 0 {
+		ViewShowDataBuku()
+		// Menampilkan pesan jika tidak ada data buku
+		fmt.Println("\nTidak ada data buku")
+		fmt.Println("\nTekan Enter untuk kembali ke menu buku")
+		fmt.Scanln()
+	} else {
+		ViewShowDataBuku()
+		// Bubble sort algorithm to sort books by title
+		SortingDataBukuByPenerbit(data)
+		// Print sorted book data
+		fmt.Println("\nDaftar Buku Berdasarkan Penerbit:")
+		for i := 0; i < jumlahDataBuku; i++ {
+			buku := data[i]
+			if buku.penerbit != "" { // Check if the book has a title
+				fmt.Printf("ISBN            : %s\n", buku.isbn)
+				fmt.Printf("Judul           : %s\n", buku.judul)
+				fmt.Printf("Penulis         : %s\n", buku.penulis)
+				fmt.Printf("Penerbit        : %s\n", buku.penerbit)
+				fmt.Printf("Tahun Terbit    : %d\n", buku.tahunTerbit)
+				fmt.Printf("Jumlah Halaman  : %d\n", buku.jumlahHalaman)
+				if buku.status == true {
+					fmt.Printf("Status Buku     : %s\n", "Buku tersedia")
+				} else {
+					fmt.Printf("Status Buku     : %s\n", "Buku sedang dipinjam")
+				}
+				fmt.Println("===================================")
+			}
+		}
+		fmt.Println("\nTekan Enter untuk kembali ke menu utama")
+		fmt.Scanln()
+	}
+}
 
+func ShowDataBukuByTahunTerbit(data *dataBuku) {
+	if jumlahDataBuku == 0 {
+		ViewShowDataBuku()
+		// Menampilkan pesan jika tidak ada data buku
+		fmt.Println("\nTidak ada data buku")
+		fmt.Println("\nTekan Enter untuk kembali ke menu buku")
+		fmt.Scanln()
+	} else {
+		ViewShowDataBuku()
+		// Bubble sort algorithm to sort books by title
+		SortingDataBukuByTahunTerbit(data)
+		// Print sorted book data
+		fmt.Println("\nDaftar Buku Berdasarkan Tahun Terbit:")
+		for i := 0; i < jumlahDataBuku; i++ {
+			buku := data[i]
+			if buku.tahunTerbit != 0 { // Check if the book has a title
+				fmt.Printf("ISBN            : %s\n", buku.isbn)
+				fmt.Printf("Judul           : %s\n", buku.judul)
+				fmt.Printf("Penulis         : %s\n", buku.penulis)
+				fmt.Printf("Penerbit        : %s\n", buku.penerbit)
+				fmt.Printf("Tahun Terbit    : %d\n", buku.tahunTerbit)
+				fmt.Printf("Jumlah Halaman  : %d\n", buku.jumlahHalaman)
+				if buku.status == true {
+					fmt.Printf("Status Buku     : %s\n", "Buku tersedia")
+				} else {
+					fmt.Printf("Status Buku     : %s\n", "Buku sedang dipinjam")
+				}
+				fmt.Println("===================================")
+			}
+		}
+		fmt.Println("\nTekan Enter untuk kembali ke menu utama")
+		fmt.Scanln()
+	}
 }
 
 // mengubah data buku
@@ -687,7 +783,6 @@ func DeleteAllDataBuku(dataBuku *dataBuku, dataPinjam *dataPinjamBuku) {
 		fmt.Println("\nTekan Enter untuk kembali ke menu utama")
 		fmt.Scanln()
 	}
-
 }
 
 // menghapus data buku by isbn
@@ -953,6 +1048,54 @@ func SortingDataBukuByTahunTerbit(data *dataBuku) {
 	}
 }
 
+func SortingDataBukuByJudul(data *dataBuku) {
+	// Temporary variable for swapping
+	var temp buku
+
+	for i := 0; i < jumlahDataBuku-1; i++ {
+		for j := 0; j < jumlahDataBuku-i-1; j++ {
+			if data[j].judul > data[j+1].judul {
+				// Swap the books
+				temp = (*data)[j]
+				(*data)[j] = (*data)[j+1]
+				(*data)[j+1] = temp
+			}
+		}
+	}
+}
+
+func SortingDataBukuByPenulis(data *dataBuku) {
+	// Temporary variable for swapping
+	var temp buku
+
+	for i := 0; i < jumlahDataBuku-1; i++ {
+		for j := 0; j < jumlahDataBuku-i-1; j++ {
+			if data[j].penulis > data[j+1].penulis {
+				// Swap the books
+				temp = data[j]
+				data[j] = data[j+1]
+				data[j+1] = temp
+			}
+		}
+	}
+}
+
+func SortingDataBukuByPenerbit(data *dataBuku) {
+	// Temporary variable for swapping
+	var temp buku
+
+	for i := 0; i < jumlahDataBuku-1; i++ {
+		for j := 0; j < jumlahDataBuku-i-1; j++ {
+			if data[j].penerbit > data[j+1].penerbit {
+				// Swap the books
+				temp = data[j]
+				data[j] = data[j+1]
+				data[j+1] = temp
+			}
+		}
+	}
+}
+
 // tampilan menu pinjam
 func ViewPinjamMenu() {
 	// Membersihkan layar sebelum menampilkan menu
@@ -981,7 +1124,7 @@ func ViewCreateDataPinjamBuku() {
 	fmt.Println("==========================================")
 }
 
-func ViewReadDataPinjamBuku() {
+func ViewShowDataPinjamBuku() {
 	fmt.Print("\033[H\033[2J")
 
 	// Menampilkan judul menu dengan garis pembatas
@@ -1010,7 +1153,7 @@ func PinjamMenu(dataPinjam *dataPinjamBuku, dataBuku *dataBuku) {
 
 		switch pilihan {
 		case 1:
-			ReadDataPinjamBuku(dataPinjam, dataBuku)
+			ShowDataPinjamBuku(dataPinjam, dataBuku)
 		case 2:
 			CreateDataPinjamBuku(dataPinjam, dataBuku)
 		case 3:
@@ -1042,12 +1185,11 @@ func CreateDataPinjamBuku(dataPinjam *dataPinjamBuku, dataBuku *dataBuku) {
 	var inputJumlahDataPinjamBuku int
 	var isBerhasil bool
 
-	pinjamBukuBaru.idPinjamBuku = 1
 	isBerhasil = false
 
 	ViewCreateDataPinjamBuku()
 
-	ReadDataBuku(dataBuku)
+	ShowDataBuku(dataBuku)
 
 	fmt.Println("\n!!! Ubah spasi dengan _ !!!")
 	fmt.Print("Masukkan ID Anggota			: ")
@@ -1082,13 +1224,13 @@ func CreateDataPinjamBuku(dataPinjam *dataPinjamBuku, dataBuku *dataBuku) {
 			// 	}
 			// }
 
-			if dataPinjam[jumlahDataPinjam] == (pinjamBuku{}) && !isBerhasil {
+			if !isBerhasil {
 				pinjamBukuBaru.isbn = dataBuku[foundISBN].isbn
 				dataPinjam[jumlahDataPinjam] = pinjamBukuBaru
 				fmt.Println("\nBuku berhasil dipinjam")
 
 				jumlahDataPinjam++
-				pinjamBukuBaru.idPinjamBuku++
+				dataPinjam[foundISBN].idPinjamBuku++
 				isBerhasil = false
 
 				dataBuku[foundISBN].jumlahBukuDipinjam++
@@ -1107,52 +1249,44 @@ func CreateDataPinjamBuku(dataPinjam *dataPinjamBuku, dataBuku *dataBuku) {
 }
 
 // mencetak data buku yang di pinjam
-func ReadDataPinjamBuku(dataPinjam *dataPinjamBuku, dataBuku *dataBuku) {
-	var isbn string
+func ShowDataPinjamBuku(dataPinjam *dataPinjamBuku, dataBuku *dataBuku) {
+	// var isbn string
 	if jumlahDataPinjam == 0 {
-		ViewReadDataPinjamBuku()
+		ViewShowDataPinjamBuku()
 		fmt.Println("\nTidak ada data buku yang sedang dipinjam")
 		fmt.Println("\nTekan Enter untuk kembali ke menu buku")
 		fmt.Scanln()
 	} else {
-		ViewReadDataPinjamBuku()
+		ViewShowDataPinjamBuku()
 		for i := 0; i < jumlahDataPinjam; i++ {
-			pinjamIndex := FindDataPinjamBukuByISBNWithSequentialSearch(*dataPinjam, isbn)
-			pinjam := dataPinjam[pinjamIndex]
-			if pinjamIndex == -1 {
-				fmt.Println("\nMaaf, buku tersebut sudah dipinjam")
-			} else {
-				bukuIndex := FindDataBukuByISBNWithSequentialSearch(*dataBuku, isbn)
-				buku := (*dataBuku)[bukuIndex]
-				if bukuIndex != -1 {
-					fmt.Println("ID Pinjam Buku		: ", pinjam.idPinjamBuku)
-					fmt.Println("ID Anggota		: ", pinjam.idAnggota)
-					fmt.Println("ISBN			: ", buku.isbn)
-					fmt.Println("Judul			: ", buku.judul)
-					fmt.Println("Penulis			: ", buku.penulis)
-					fmt.Println("Penerbit		: ", buku.penerbit)
-					fmt.Println("Tahun Terbit		: ", buku.tahunTerbit)
-					fmt.Println("Tanggal dipinjam	: ", pinjam.tgl_pinjam)
+			if dataPinjam[i].isbn == dataBuku[i].isbn && dataPinjam[i].status == false {
+				pinjam := dataPinjam[i]
+				buku := dataBuku[i]
+				fmt.Println("ID Pinjam Buku		: ", pinjam.idPinjamBuku)
+				fmt.Println("ID Anggota		: ", pinjam.idAnggota)
+				fmt.Println("ISBN			: ", buku.isbn)
+				fmt.Println("Judul			: ", buku.judul)
+				fmt.Println("Penulis			: ", buku.penulis)
+				fmt.Println("Penerbit		: ", buku.penerbit)
+				fmt.Println("Tahun Terbit		: ", buku.tahunTerbit)
+				fmt.Println("Tanggal dipinjam	: ", pinjam.tgl_pinjam)
 
-					if pinjam.tgl_kembali == 0 {
-						fmt.Println("Tanggal dikembalikan	:  Buku masih dipinjam")
-					} else {
-						fmt.Println("Tanggal dikembalikan	: ", pinjam.tgl_kembali)
-					}
-
-					fmt.Println("Jumlah Buku Dipinjam	: ", buku.jumlahBukuDipinjam)
-					fmt.Println("=====================================\n")
+				if pinjam.tgl_kembali == 0 {
+					fmt.Println("Tanggal dikembalikan	:  Buku masih dipinjam")
 				} else {
-					fmt.Println("\nMaaf, buku dengan ISBN tersebut tidak dapat ditemukan")
-					fmt.Println("\nTekan Enter untuk kembali ke menu pinjam")
-					fmt.Scanln()
+					fmt.Println("Tanggal dikembalikan	: ", pinjam.tgl_kembali)
 				}
-			}
 
+				fmt.Println("Jumlah Buku Dipinjam	: ", buku.jumlahBukuDipinjam)
+				fmt.Println("=====================================")
+			} else {
+				fmt.Println("Maaf, buku dengan ISBN tersebut tidak dapat ditemukan")
+				fmt.Println("\nTekan Enter untuk kembali ke menu pinjam")
+			}
 		}
-		fmt.Println("\nTekan Enter untuk kembali ke menu pinjam")
-		fmt.Scanln()
 	}
+	fmt.Scanln()
+
 }
 
 // update data pinjam buku
