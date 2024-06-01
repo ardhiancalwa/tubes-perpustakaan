@@ -579,7 +579,7 @@ func ShowDataBukuByPenulis(data *dataBuku) {
 	} else {
 		clearScreen()
 		ViewShowDataBuku()
-		SortingDataBukuByPenulis(data)
+		SortingDataBukuByPenulisBySelectionSort(data)
 		fmt.Println("\nDaftar Buku Berdasarkan Penulis:")
 		for i := 0; i < jumlahDataBuku; i++ {
 			buku := data[i]
@@ -610,7 +610,7 @@ func ShowDataBukuByPenerbit(data *dataBuku) {
 	} else {
 		clearScreen()
 		ViewShowDataBuku()
-		SortingDataBukuByPenerbit(data)
+		SortingDataBukuByPenerbitBySelectionSort(data)
 		fmt.Println("\nDaftar Buku Berdasarkan Penerbit:")
 		for i := 0; i < jumlahDataBuku; i++ {
 			buku := data[i]
@@ -640,7 +640,7 @@ func ShowDataBukuByTahunTerbit(data *dataBuku) {
 		fmt.Scanln()
 	} else {
 		ViewShowDataBuku()
-		SortingDataBukuByTahunTerbit(data)
+		SortingDataBukuByTahunTerbitByInsertionSort(data)
 		fmt.Println("\nDaftar Buku Berdasarkan Tahun Terbit:")
 		for i := 0; i < jumlahDataBuku; i++ {
 			buku := data[i]
@@ -975,18 +975,16 @@ func FindDataBukuByTahunTerbitWithSequentialSearch(data dataBuku, tahunTerbit in
 	return found
 }
 
-func SortingDataBukuByTahunTerbit(data *dataBuku) {
-	for i := 0; i < jumlahDataBuku-1; i++ {
-		maxIndex := i
-		for j := i + 1; j < jumlahDataBuku; j++ {
-			if data[j].tahunTerbit > data[maxIndex].tahunTerbit {
-				maxIndex = j
-			}
+func SortingDataBukuByTahunTerbitByInsertionSort(data *dataBuku) {
+	for i := 1; i < jumlahDataBuku; i++ {
+		temp := (*data)[i]
+		j := i
+		// Pindahkan elemen yang lebih besar dari temp ke satu posisi ke depan
+		for j > 0 && (*data)[j-1].tahunTerbit < temp.tahunTerbit {
+			(*data)[j] = (*data)[j-1]
+			j = j - 1
 		}
-
-		if i != maxIndex {
-			data[i], data[maxIndex] = data[maxIndex], data[i]
-		}
+		(*data)[j] = temp
 	}
 }
 
@@ -1005,33 +1003,33 @@ func SortingDataBukuByJudulBySelectionSort(data *dataBuku) {
 	}
 }
 
-func SortingDataBukuByPenulis(data *dataBuku) {
-	var temp buku
-
-	for i := 0; i < jumlahDataBuku-1; i++ {
-		for j := 0; j < jumlahDataBuku-i-1; j++ {
-			if data[j].penulis > data[j+1].penulis {
-				// Swap the books
-				temp = data[j]
-				data[j] = data[j+1]
-				data[j+1] = temp
+func SortingDataBukuByPenulisBySelectionSort(data *dataBuku) {
+	for i := 1; i < jumlahDataBuku; i++ {
+		idxMin := i - 1
+		for j := i; j < jumlahDataBuku; j++ {
+			if (*data)[idxMin].penulis > (*data)[j].penulis {
+				idxMin = j
 			}
 		}
+		// Swap the books
+		temp := (*data)[idxMin]
+		(*data)[idxMin] = (*data)[i-1]
+		(*data)[i-1] = temp
 	}
 }
 
-func SortingDataBukuByPenerbit(data *dataBuku) {
-	var temp buku
-
-	for i := 0; i < jumlahDataBuku-1; i++ {
-		for j := 0; j < jumlahDataBuku-i-1; j++ {
-			if data[j].penerbit > data[j+1].penerbit {
-				// Swap the books
-				temp = data[j]
-				data[j] = data[j+1]
-				data[j+1] = temp
+func SortingDataBukuByPenerbitBySelectionSort(data *dataBuku) {
+	for i := 1; i < jumlahDataBuku; i++ {
+		idxMin := i - 1
+		for j := i; j < jumlahDataBuku; j++ {
+			if (*data)[idxMin].penerbit > (*data)[j].penerbit {
+				idxMin = j
 			}
 		}
+		// Swap the books
+		temp := (*data)[idxMin]
+		(*data)[idxMin] = (*data)[i-1]
+		(*data)[i-1] = temp
 	}
 }
 
@@ -1400,14 +1398,7 @@ func Top5BukuTerfavorit(dataBuku *dataBuku) {
 		fmt.Println("\nTidak ada data buku.")
 		fmt.Scanln()
 	} else {
-		// Bubble sort berdasarkan jumlahBukuDipinjam (descending)
-		for i := 0; i < jumlahDataBuku-1; i++ {
-			for j := 0; j < jumlahDataBuku-i-1; j++ {
-				if dataBuku[j].jumlahBukuDipinjam < dataBuku[j+1].jumlahBukuDipinjam {
-					dataBuku[j], dataBuku[j+1] = dataBuku[j+1], dataBuku[j]
-				}
-			}
-		}
+		SortingTop5FavoritByInsertionSort(dataBuku)
 
 		fmt.Println("\n5 Buku Terfavorit:")
 		for i := 0; i < 5 && i < jumlahDataBuku; i++ {
@@ -1418,7 +1409,18 @@ func Top5BukuTerfavorit(dataBuku *dataBuku) {
 	}
 }
 
-// func SortingTop5FavoritByInsertionSort()
+func SortingTop5FavoritByInsertionSort(dataBuku *dataBuku) {
+	var i, j int
+    for i = 1; i < jumlahDataBuku; i++ {
+        temp := dataBuku[i]
+        j = i - 1
+        for j >= 0 && temp.jumlahBukuDipinjam > dataBuku[j].jumlahBukuDipinjam {
+            dataBuku[j+1] = dataBuku[j]
+            j--
+        }
+        dataBuku[j+1] = temp
+    }
+}
 
 func FindDataPinjamBukuByISBNWithSequentialSearch(data dataPinjamBuku, isbn string) int {
 	var found int = -1
