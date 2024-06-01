@@ -5,6 +5,7 @@ import (
 	"os"
 	"os/exec"
 	"runtime"
+	"strconv"
 )
 
 const MAXBUKU int = 1000
@@ -13,12 +14,6 @@ type tanggal struct {
 	hari  int
 	bulan int
 	tahun int
-}
-
-type admin struct {
-	username string
-	email    string
-	password string
 }
 
 type buku struct {
@@ -38,14 +33,11 @@ type pinjamBuku struct {
 	idPinjamBuku int
 	tgl_pinjam   tanggal
 	tgl_kembali  tanggal
-	jumlahPinjam int
 	denda        float64
-	status       bool
 }
 
-var jumlahDataAdmin, jumlahDataBuku, jumlahDataPinjam int
+var jumlahDataBuku, jumlahDataPinjam int
 
-type dataAdmin [MAXBUKU]admin
 type dataBuku [MAXBUKU]buku
 type dataPinjamBuku [MAXBUKU]pinjamBuku
 
@@ -64,8 +56,7 @@ func clearScreen() {
 }
 
 func ViewBukuMenu() {
-	fmt.Print("\033[H\033[2J")
-
+	clearScreen()
 	fmt.Println("=======================================")
 	fmt.Println("|          Menu Perpustakaan          |")
 	fmt.Println("=======================================")
@@ -79,8 +70,7 @@ func ViewBukuMenu() {
 }
 
 func ViewDeleteDataBukuMenu() {
-	fmt.Print("\033[H\033[2J")
-
+	clearScreen()
 	fmt.Println("================================")
 	fmt.Println("|     Menu Hapus Data Buku     |")
 	fmt.Println("================================")
@@ -94,8 +84,7 @@ func ViewDeleteDataBukuMenu() {
 }
 
 func ViewShowDataBukuMenu() {
-	fmt.Print("\033[H\033[2J")
-
+	clearScreen()
 	fmt.Println("================================")
 	fmt.Println("|     Menu Cetak Data Buku     |")
 	fmt.Println("================================")
@@ -106,8 +95,7 @@ func ViewShowDataBukuMenu() {
 }
 
 func ViewShowDataBukuByKategoriMenu() {
-	fmt.Print("\033[H\033[2J")
-
+	clearScreen()
 	fmt.Println("=====================================================")
 	fmt.Println("|     Menu Cetak Data Buku Berdasarkan Kategori     |")
 	fmt.Println("=====================================================")
@@ -120,61 +108,54 @@ func ViewShowDataBukuByKategoriMenu() {
 }
 
 func ViewCreateDataBuku() {
-	fmt.Print("\033[H\033[2J")
-
+	clearScreen()
 	fmt.Println("===============================")
 	fmt.Println("|    TAMBAH DATA BUKU BARU    |")
 	fmt.Println("===============================")
 }
 
 func ViewUpdateDataBuku() {
-	fmt.Print("\033[H\033[2J")
-
+	clearScreen()
 	fmt.Println("===============================")
 	fmt.Println("|       UBAH DATA BUKU        |")
 	fmt.Println("===============================")
 }
 
 func ViewDeleteDataBuku() {
-	fmt.Print("\033[H\033[2J")
-
+	clearScreen()
 	fmt.Println("===============================")
 	fmt.Println("|        HAPUS DATA BUKU      |")
 	fmt.Println("===============================")
 }
 
 func ViewSearchDataBuku() {
-	fmt.Print("\033[H\033[2J")
-
+	clearScreen()
 	fmt.Println("===============================")
 	fmt.Println("|       CARI DATA BUKU        |")
 	fmt.Println("===============================")
 }
 
 func ViewShowDataBuku() {
-	fmt.Print("\033[H\033[2J")
-
+	clearScreen()
 	fmt.Println("===============================")
 	fmt.Println("|         DAFTAR BUKU         |")
 	fmt.Println("===============================")
 }
 
-func ViewAdminMenu() {
-	fmt.Print("\033[H\033[2J")
-
+func ViewLoginMenu() {
+	clearScreen()
 	fmt.Println("===============================")
-	fmt.Println("|         Menu Admin          |")
+	fmt.Println("|         Menu Login          |")
 	fmt.Println("===============================")
 
 	fmt.Println("\n1. Login")
-	fmt.Println("2. Register")
-	fmt.Println("3. Keluar")
+	fmt.Println("2. Keluar")
 
 	fmt.Print("Masukkan pilihan (1/2/3): ")
 }
 
 func ViewLoginAdmin() {
-	fmt.Print("\033[H\033[2J")
+	clearScreen()
 
 	fmt.Println("===============================")
 	fmt.Println("|         Login Admin         |")
@@ -182,15 +163,23 @@ func ViewLoginAdmin() {
 }
 
 func ViewRegisterAdmin() {
-	fmt.Print("\033[H\033[2J")
+	clearScreen()
 
 	fmt.Println("===============================")
 	fmt.Println("|         Register Admin      |")
 	fmt.Println("===============================")
 }
 
+func ViewTop5BukuTerfavorit() {
+	clearScreen()
+
+	fmt.Println("========================================")
+	fmt.Println("|         Top 5 Buku Terfavorit        |")
+	fmt.Println("========================================")
+}
+
 func ViewMainMenu() {
-	fmt.Print("\033[H\033[2J")
+	clearScreen()
 
 	fmt.Println("==========================================")
 	fmt.Println("|         Menu Utama Perpustakaan        |")
@@ -198,12 +187,13 @@ func ViewMainMenu() {
 
 	fmt.Println("\n1. Data Buku")
 	fmt.Println("2. Pinjam Buku")
-	fmt.Println("3. Log out")
+	fmt.Println("3. Rekomendasi 5 Buku Terpopuler")
+	fmt.Println("4. Log out")
 
-	fmt.Print("Masukkan pilihan (1/2/3): ")
+	fmt.Print("Masukkan pilihan (1/2/3/4): ")
 }
 
-func login(dataAdmin *dataAdmin) {
+func login() {
 	var dataBuku dataBuku
 	var dataPinjam dataPinjamBuku
 	var username, password string
@@ -217,10 +207,8 @@ func login(dataAdmin *dataAdmin) {
 	fmt.Print("Masukkan password: ")
 	fmt.Scan(&password)
 
-	for i := 0; i < jumlahDataAdmin; i++ {
-		if dataAdmin[i].username == username && dataAdmin[i].password == password {
-			isLogin = true
-		}
+	if username == "admin" && password == "root" {
+		isLogin = true
 	}
 
 	if isLogin {
@@ -231,69 +219,28 @@ func login(dataAdmin *dataAdmin) {
 		MainMenu(&dataBuku, &dataPinjam)
 		clearScreen()
 	} else {
-		if jumlahDataAdmin == 0 {
-			fmt.Println("\nAkun anda belum terdaftar")
-			fmt.Println("Silahkan register terlebih dahulu")
-		} else {
-			fmt.Println("\nUsername atau password salah!")
-		}
-	}
-	clearScreen()
-	fmt.Println("\nTekan Enter untuk kembali ke menu admin")
-	AdminMenu(dataAdmin)
-}
-
-func registration(dataAdmin *dataAdmin) {
-	var adminBaru admin
-	isBerhasil := true
-
-	ViewRegisterAdmin()
-
-	fmt.Print("\nMasukkan username: ")
-	fmt.Scan(&adminBaru.username)
-	fmt.Print("Masukkan email: ")
-	fmt.Scan(&adminBaru.email)
-	fmt.Print("Masukkan password: ")
-	fmt.Scan(&adminBaru.password)
-
-	for i := 0; i < jumlahDataAdmin; i++ {
-		if dataAdmin[i].username == adminBaru.username {
-			fmt.Println("\nUsername sudah ada. Silakan coba username lain.")
-			fmt.Scanln()
-			isBerhasil = false
-		}
-	}
-
-	if isBerhasil {
-		dataAdmin[jumlahDataAdmin] = adminBaru
-		jumlahDataAdmin++
-
-		fmt.Println("\nRegistrasi berhasil!")
+		fmt.Println("\nMasukkan \"admin\" untuk username dan \"root\" untuk password")
 		fmt.Scanln()
-	} else {
-		fmt.Println("\nRegistrasi gagal!")
-	}
 
+	}
+	fmt.Println("\nTekan Enter untuk kembali ke menu login")
+	fmt.Scanln()
 	clearScreen()
-	fmt.Println("\nTekan Enter untuk kembali ke menu admin")
-	AdminMenu(dataAdmin)
+	LoginMenu()
 }
 
-func AdminMenu(dataAdmin *dataAdmin) {
+func LoginMenu() {
 	pilihan := 0
 	keluar := false
 
 	for !keluar {
-		ViewAdminMenu()
+		ViewLoginMenu()
 		fmt.Scan(&pilihan)
 		switch pilihan {
 		case 1:
 			clearScreen()
-			login(dataAdmin)
+			login()
 		case 2:
-			clearScreen()
-			registration(dataAdmin)
-		case 3:
 			keluar = true
 			fmt.Println("\n======================================")
 			fmt.Println("|         KELUAR DARI PROGAM         |")
@@ -307,7 +254,6 @@ func AdminMenu(dataAdmin *dataAdmin) {
 }
 
 func MainMenu(dataBuku *dataBuku, dataPinjam *dataPinjamBuku) {
-	var dataAdmin dataAdmin
 	pilihan := 0
 	keluar := false
 
@@ -317,13 +263,19 @@ func MainMenu(dataBuku *dataBuku, dataPinjam *dataPinjamBuku) {
 
 		switch pilihan {
 		case 1:
+			clearScreen()
 			BukuMenu(dataBuku, dataPinjam)
 		case 2:
+			clearScreen()
 			PinjamMenu(dataPinjam, dataBuku)
 		case 3:
+			clearScreen()
+			Top5BukuTerfavorit(dataBuku)
+		case 4:
 			keluar = true
-			AdminMenu(&dataAdmin)
+			LoginMenu()
 		default:
+			clearScreen()
 			fmt.Println("Pilihan tidak valid!")
 		}
 
@@ -344,22 +296,26 @@ func BukuMenu(dataBuku *dataBuku, dataPinjam *dataPinjamBuku) {
 
 		switch pilihan {
 		case 1:
+			clearScreen()
 			ShowDataBukuMenu(dataBuku, dataPinjam)
 		case 2:
+			clearScreen()
 			AddDataBuku(dataBuku)
 		case 3:
+			clearScreen()
 			UpdateDataBuku(dataBuku)
 		case 4:
+			clearScreen()
 			DeleteDataBukuMenu(dataBuku, *dataPinjam)
 		case 5:
+			clearScreen()
 			SearchDataBukuByKeyword(dataBuku)
 		case 6:
 			MainMenu(dataBuku, dataPinjam)
 			keluar = true
 		default:
+			clearScreen()
 			fmt.Println("Pilihan tidak valid!")
-			fmt.Print("Tolong masukkan pilihan kembali: ")
-			fmt.Scan(&pilihan)
 		}
 
 		if !keluar {
@@ -378,23 +334,25 @@ func ShowDataBukuMenu(dataBuku *dataBuku, dataPinjam *dataPinjamBuku) {
 		fmt.Scan(&pilihan)
 		switch pilihan {
 		case 1:
+			clearScreen()
 			ShowDataBuku(dataBuku)
 		case 2:
+			clearScreen()
 			ShowDataBukuByKategoriMenu(dataBuku, dataPinjam)
 		case 3:
 			BukuMenu(dataBuku, dataPinjam)
 			keluar = true
 		default:
+			clearScreen()
 			fmt.Println("Pilihan tidak valid!")
-			fmt.Print("Tolong masukkan pilihan kembali: ")
-			fmt.Scan(&pilihan)
+		}
+
+		if !keluar {
+			fmt.Println("\nTekan Enter untuk kembali ke menu buku")
+			fmt.Scanln()
 		}
 	}
 
-	if !keluar {
-		fmt.Println("\nTekan Enter untuk kembali ke menu utama")
-		fmt.Scanln()
-	}
 }
 
 func ShowDataBukuByKategoriMenu(dataBuku *dataBuku, dataPinjam *dataPinjamBuku) {
@@ -407,20 +365,24 @@ func ShowDataBukuByKategoriMenu(dataBuku *dataBuku, dataPinjam *dataPinjamBuku) 
 
 		switch pilihan {
 		case 1:
+			clearScreen()
 			ShowDataBukuByJudul(dataBuku)
 		case 2:
+			clearScreen()
 			ShowDataBukuByPenulis(dataBuku)
 		case 3:
+			clearScreen()
 			ShowDataBukuByPenerbit(dataBuku)
 		case 4:
+			clearScreen()
 			ShowDataBukuByTahunTerbit(dataBuku)
 		case 5:
+			clearScreen()
 			BukuMenu(dataBuku, dataPinjam)
 			keluar = true
 		default:
+			clearScreen()
 			fmt.Println("Pilihan tidak valid!")
-			fmt.Print("Tolong masukkan pilihan kembali: ")
-			fmt.Scan(&pilihan)
 		}
 
 		if !keluar {
@@ -440,26 +402,31 @@ func DeleteDataBukuMenu(dataBuku *dataBuku, dataPinjam dataPinjamBuku) {
 
 		switch pilihan {
 		case 1:
+			clearScreen()
 			DeleteDataBukuByISBN(dataBuku)
 		case 2:
+			clearScreen()
 			DeleteDataBukuByJudul(dataBuku)
 		case 3:
+			clearScreen()
 			DeleteDataBukuByPenulis(dataBuku)
 		case 4:
+			clearScreen()
 			DeleteDataBukuByTahunTerbit(dataBuku)
 		case 5:
+			clearScreen()
 			DeleteAllDataBuku(dataBuku, &dataPinjam)
 		case 6:
+			clearScreen()
 			BukuMenu(dataBuku, &dataPinjam)
 			keluar = true
 		default:
+			clearScreen()
 			fmt.Println("Pilihan tidak valid!")
-			fmt.Print("Tolong masukkan pilihan kembali: ")
-			fmt.Scan(&pilihan)
 		}
 
 		if !keluar {
-			fmt.Println("\nTekan Enter untuk kembali ke menu utama")
+			fmt.Println("\nTekan Enter untuk kembali ke menu hapus data buku")
 			fmt.Scanln()
 		}
 	}
@@ -469,13 +436,23 @@ func AddDataBuku(data *dataBuku) {
 	var bukuBaru buku
 	var inputJumlahDataBuku int
 	var isBerhasil bool
+	var inputJumlah, inputTahunTerbit, inputHalamanBuku string
 
 	ViewCreateDataBuku()
 
 	fmt.Println("\nMasukkan data buku dengan format yang benar.")
 
 	fmt.Print("Masukkan jumlah buku yang akan ditambahkan: ")
-	fmt.Scan(&inputJumlahDataBuku)
+	fmt.Scan(&inputJumlah)
+
+	inputJumlahDataBuku, err := strconv.Atoi(inputJumlah)
+	for err != nil {
+		// Jika konversi gagal, tampilkan pesan error dan keluar dari fungsi
+		fmt.Println("\nInput jumlah data buku yang akan ditambahkan harus berupa angka. Silakan coba lagi.")
+		fmt.Scanln()
+		return
+	}
+
 	isBerhasil = false
 	for i := 0; i < inputJumlahDataBuku; i++ {
 		isDuplicate := false
@@ -497,9 +474,24 @@ func AddDataBuku(data *dataBuku) {
 			fmt.Print("Penerbit	: ")
 			fmt.Scan(&bukuBaru.penerbit)
 			fmt.Print("Tahun Terbit	: ")
-			fmt.Scan(&bukuBaru.tahunTerbit)
+			fmt.Scan(&inputTahunTerbit)
+			bukuBaru.tahunTerbit, err = strconv.Atoi(inputTahunTerbit)
+			for err != nil {
+				// Jika konversi gagal, tampilkan pesan error dan keluar dari fungsi
+				fmt.Println("\nInput tahun terbit harus berupa angka. Silakan coba lagi.")
+				fmt.Scanln()
+				return
+			}
 			fmt.Print("Jumlah Halaman	: ")
-			fmt.Scan(&bukuBaru.jumlahHalaman)
+			fmt.Scan(&inputHalamanBuku)
+			bukuBaru.jumlahHalaman, err = strconv.Atoi(inputHalamanBuku)
+			for err != nil {
+				// Jika konversi gagal, tampilkan pesan error dan keluar dari fungsi
+				fmt.Println("\nInput jumlah halaman buku harus berupa angka. Silakan coba lagi.")
+				fmt.Scanln()
+				return
+			}
+
 			bukuBaru.status = false
 
 			if !isBerhasil {
@@ -523,6 +515,7 @@ func ShowDataBuku(data *dataBuku) {
 		fmt.Println("\nTidak ada data buku")
 		fmt.Scanln()
 	} else {
+		clearScreen()
 		ViewShowDataBuku()
 		fmt.Println("\nSemua Daftar Buku:")
 		for i := 0; i < jumlahDataBuku; i++ {
@@ -545,8 +538,6 @@ func ShowDataBuku(data *dataBuku) {
 		}
 		fmt.Scanln()
 	}
-	fmt.Println("\nTekan Enter untuk kembali ke menu buku")
-	fmt.Scanln()
 }
 
 func ShowDataBukuByJudul(data *dataBuku) {
@@ -555,8 +546,9 @@ func ShowDataBukuByJudul(data *dataBuku) {
 		fmt.Println("\nTidak ada data buku")
 		fmt.Scanln()
 	} else {
+		clearScreen()
 		ViewShowDataBuku()
-		SortingDataBukuByJudul(data)
+		SortingDataBukuByJudulBySelectionSort(data)
 		fmt.Println("\nDaftar Buku Berdasarkan Judul:")
 		for i := 0; i < jumlahDataBuku; i++ {
 			buku := data[i]
@@ -585,6 +577,7 @@ func ShowDataBukuByPenulis(data *dataBuku) {
 		fmt.Println("\nTidak ada data buku")
 		fmt.Scanln()
 	} else {
+		clearScreen()
 		ViewShowDataBuku()
 		SortingDataBukuByPenulis(data)
 		fmt.Println("\nDaftar Buku Berdasarkan Penulis:")
@@ -615,6 +608,7 @@ func ShowDataBukuByPenerbit(data *dataBuku) {
 		fmt.Println("\nTidak ada data buku")
 		fmt.Scanln()
 	} else {
+		clearScreen()
 		ViewShowDataBuku()
 		SortingDataBukuByPenerbit(data)
 		fmt.Println("\nDaftar Buku Berdasarkan Penerbit:")
@@ -677,7 +671,6 @@ func UpdateDataBuku(data *dataBuku) {
 	ViewUpdateDataBuku()
 	fmt.Print("\nMasukkan ISBN yang ingin diubah	: ")
 	fmt.Scan(&isbnBuku)
-	fmt.Println()
 
 	indexFound = FindDataBukuByISBNWithSequentialSearch(*data, isbnBuku)
 	if indexFound != -1 {
@@ -697,9 +690,11 @@ func UpdateDataBuku(data *dataBuku) {
 		data[indexFound].penerbit = penerbitBaru
 		data[indexFound].tahunTerbit = tahunTerbitBaru
 		data[indexFound].jumlahHalaman = jumlahHalamanBaru
-		fmt.Println("\nBuku berhasil diubah")
+		fmt.Printf("\nBuku dengan ISBN \"%s\" berhasil diubah\n", isbnBuku)
+		fmt.Scanln()
 	} else {
-		fmt.Println("\nMaaf, buku dengan ISBN tersebut tidak dapat ditemukan")
+		fmt.Printf("\nMaaf, buku dengan ISBN \"%s\" tidak dapat ditemukan\n", isbnBuku)
+		fmt.Scanln()
 	}
 }
 
@@ -735,11 +730,22 @@ func DeleteDataBukuByKeyword(data *dataBuku) {
 }
 
 func DeleteAllDataBuku(dataBuku *dataBuku, dataPinjam *dataPinjamBuku) {
-	jumlahDataBuku = 0
+	var input string
+	ViewDeleteDataBuku()
 
-	fmt.Println("\nSemua data buku berhasil dihapus.")
-	fmt.Println("\nTekan Enter untuk kembali ke menu utama")
-	fmt.Scanln()
+	fmt.Print("Apakah anda yakin ingin menghapus semua data buku? (y/n) : ")
+	fmt.Scan(&input)
+
+	if input == "y" {
+		if jumlahDataBuku > 0 {
+			jumlahDataBuku = 0
+			fmt.Println("\nSemua data buku berhasil dihapus.")
+			fmt.Scanln()
+		} else {
+			fmt.Println("\nTidak ada data buku yang dapat dihapus.")
+			fmt.Scanln()
+		}
+	}
 }
 
 func DeleteDataBukuByISBN(data *dataBuku) {
@@ -756,10 +762,10 @@ func DeleteDataBukuByISBN(data *dataBuku) {
 			data[i] = data[i+1]
 		}
 		jumlahDataBuku = jumlahDataBuku - 1
-		fmt.Printf("\nData buku dengan ISBN %s berhasil dihapus", isbn)
+		fmt.Printf("\nData buku dengan ISBN \"%s\" berhasil dihapus\n", isbn)
 		fmt.Scanln()
 	} else {
-		fmt.Println("\nMaaf, buku dengan ISBN tersebut tidak dapat ditemukan")
+		fmt.Printf("\nMaaf, buku dengan ISBN \"%s\" tidak dapat ditemukan\n", isbn)
 		fmt.Scanln()
 	}
 }
@@ -786,16 +792,15 @@ func DeleteDataBukuByJudul(data *dataBuku) {
 		}
 	}
 
-	if jumlahDataBuku < MAXBUKU {
+	if jumlahDataBuku < MAXBUKU && found {
 		fmt.Printf("\nSemua data buku dengan judul \"%s\" berhasil dihapus\n", judul)
 		fmt.Scanln()
 	} else {
-		fmt.Println("\nMaaf, buku dengan judul tersebut tidak dapat ditemukan")
+		fmt.Printf("\nMaaf, buku dengan judul \"%s\" tidak dapat ditemukan\n", judul)
 		fmt.Scanln()
 	}
 }
 
-// delete data buku by penulis
 func DeleteDataBukuByPenulis(data *dataBuku) {
 	var penulis string
 	var index int
@@ -818,23 +823,32 @@ func DeleteDataBukuByPenulis(data *dataBuku) {
 		}
 	}
 
-	if jumlahDataBuku < MAXBUKU {
-		fmt.Printf("\nSemua data buku dengan penulis %s berhasil dihapus\n", penulis)
+	if jumlahDataBuku < MAXBUKU && found {
+		fmt.Printf("\nSemua data buku dengan penulis \"%s\" berhasil dihapus\n", penulis)
 		fmt.Scanln()
 	} else {
-		fmt.Println("\nMaaf, buku dengan penulis tersebut tidak dapat ditemukan")
+		fmt.Printf("\nMaaf, buku dengan penulis \"%s\" tidak dapat ditemukan\n", penulis)
 		fmt.Scanln()
 	}
 }
 
 func DeleteDataBukuByTahunTerbit(data *dataBuku) {
 	var tahunTerbit int
+	var input string
 	var index int
 	var found bool
 
 	ViewDeleteDataBuku()
 	fmt.Print("Masukkan tahun terbit buku yang ingin dihapus: ")
-	fmt.Scan(&tahunTerbit)
+	fmt.Scan(&input)
+
+	tahunTerbit, err := strconv.Atoi(input)
+	for err != nil {
+		// Jika konversi gagal, tampilkan pesan error dan keluar dari fungsi
+		fmt.Println("\nInput tahun terbit harus berupa angka. Silakan coba lagi.")
+		fmt.Scanln()
+		return
+	}
 
 	found = true
 	for found {
@@ -849,14 +863,13 @@ func DeleteDataBukuByTahunTerbit(data *dataBuku) {
 		}
 	}
 
-	if jumlahDataBuku < MAXBUKU {
-		fmt.Printf("\nSemua data buku dengan tahun terbit %d berhasil dihapus\n", tahunTerbit)
+	if jumlahDataBuku < MAXBUKU && found {
+		fmt.Printf("\nSemua data buku dengan tahun terbit \"%d\" berhasil dihapus\n", tahunTerbit)
 		fmt.Scanln()
 	} else {
-		fmt.Println("\nMaaf, buku dengan tahun terbit tersebut tidak dapat ditemukan")
+		fmt.Printf("\nMaaf, buku dengan tahun terbit \"%d\" tidak dapat ditemukan\n", tahunTerbit)
+		fmt.Scanln()
 	}
-	fmt.Println("\nTekan Enter untuk kembali ke menu hapus")
-	fmt.Scanln()
 }
 
 func SearchDataBukuByKeyword(data *dataBuku) {
@@ -879,9 +892,9 @@ func SearchDataBukuByKeyword(data *dataBuku) {
 			fmt.Printf("Penerbit       	: %s\n", data[i].penerbit)
 			fmt.Printf("Tahun Terbit   	: %d\n", data[i].tahunTerbit)
 			fmt.Printf("Jumlah Halaman 	: %d\n", data[i].jumlahHalaman)
-			fmt.Scanln()
 		}
 	}
+	fmt.Scanln()
 
 	if found {
 		fmt.Printf("\nMaaf, buku dengan kata kunci \"%s\" tidak dapat ditemukan.\n", kataKunci)
@@ -962,25 +975,6 @@ func FindDataBukuByTahunTerbitWithSequentialSearch(data dataBuku, tahunTerbit in
 	return found
 }
 
-// belum kepake
-func FindDataWithBinarySearch(data dataBuku, isbn string, n int) int {
-	var left, right, mid, index int
-	left = 0
-	right = n - 1
-	index = -1
-	for left <= right && index == -1 {
-		mid = (left + right) / 2
-		if isbn < data[mid].isbn {
-			right = mid - 1
-		} else if isbn > data[mid].isbn {
-			left = mid + 1
-		} else {
-			index = mid
-		}
-	}
-	return index
-}
-
 func SortingDataBukuByTahunTerbit(data *dataBuku) {
 	for i := 0; i < jumlahDataBuku-1; i++ {
 		maxIndex := i
@@ -996,18 +990,18 @@ func SortingDataBukuByTahunTerbit(data *dataBuku) {
 	}
 }
 
-func SortingDataBukuByJudul(data *dataBuku) {
-	var temp buku
-
-	for i := 0; i < jumlahDataBuku-1; i++ {
-		for j := 0; j < jumlahDataBuku-i-1; j++ {
-			if data[j].judul > data[j+1].judul {
-				// Swap the books
-				temp = (*data)[j]
-				(*data)[j] = (*data)[j+1]
-				(*data)[j+1] = temp
+func SortingDataBukuByJudulBySelectionSort(data *dataBuku) {
+	for i := 1; i < jumlahDataBuku; i++ {
+		idxMin := i - 1
+		for j := i; j < jumlahDataBuku; j++ {
+			if (*data)[idxMin].judul > (*data)[j].judul {
+				idxMin = j
 			}
 		}
+		// Swap the books
+		temp := (*data)[idxMin]
+		(*data)[idxMin] = (*data)[i-1]
+		(*data)[i-1] = temp
 	}
 }
 
@@ -1042,7 +1036,7 @@ func SortingDataBukuByPenerbit(data *dataBuku) {
 }
 
 func ViewPinjamMenu() {
-	fmt.Print("\033[H\033[2J")
+	clearScreen()
 
 	fmt.Println("=============================================")
 	fmt.Println("|        Menu Pinjam Buku Perpustakaan      |")
@@ -1051,13 +1045,13 @@ func ViewPinjamMenu() {
 	fmt.Println("2. Tambah Data Peminjaman")
 	fmt.Println("3. Ubah Data Peminjaman")
 	fmt.Println("4. Hapus Data Peminjaman")
-	fmt.Println("5. Hitung Tarif Pinjaman dan Denda")
+	fmt.Println("5. Riwayat Pinjam")
 	fmt.Println("6. Kembali ke Menu Utama")
 	fmt.Print("Masukkan pilihan (1/2/3/4/5/6): ")
 }
 
 func ViewCreateDataPinjamBuku() {
-	fmt.Print("\033[H\033[2J")
+	clearScreen()
 
 	fmt.Println("==========================================")
 	fmt.Println("|        Tambah Data Peminjaman  Buku    |")
@@ -1065,7 +1059,7 @@ func ViewCreateDataPinjamBuku() {
 }
 
 func ViewShowDataPinjamBuku() {
-	fmt.Print("\033[H\033[2J")
+	clearScreen()
 
 	fmt.Println("=========================================")
 	fmt.Println("|      Daftar Data Peminjaman  Buku     |")
@@ -1073,7 +1067,7 @@ func ViewShowDataPinjamBuku() {
 }
 
 func ViewUpdateDataTanggalPinjamBuku() {
-	fmt.Print("\033[H\033[2J")
+	clearScreen()
 
 	fmt.Println("==============================================")
 	fmt.Println("|        UBAH DATA TANGGAL PINJAM BUKU       |")
@@ -1093,11 +1087,11 @@ func PinjamMenu(dataPinjam *dataPinjamBuku, dataBuku *dataBuku) {
 		case 1:
 			ShowDataPinjamBuku(dataPinjam, dataBuku, &idPinjam)
 		case 2:
-			CreateDataPinjamBuku(dataPinjam, dataBuku)
+			AddDataPinjamBuku(dataPinjam, dataBuku)
 		case 3:
 			UpdateDataTanggalPinjamBuku(dataPinjam, dataBuku)
 		case 4:
-			DeleteDataPinjamBuku()
+			DeleteDataPinjamBuku(dataPinjam)
 		case 5:
 			HitungTarifDanDenda(hariPinjam)
 		case 6:
@@ -1105,12 +1099,11 @@ func PinjamMenu(dataPinjam *dataPinjamBuku, dataBuku *dataBuku) {
 			keluar = true
 		default:
 			fmt.Println("Pilihan tidak valid!")
-			fmt.Print("Tolong masukkan pilihan kembali: ")
-			fmt.Scan(&pilihan)
+			fmt.Scanln()
 		}
 
 		if !keluar {
-			fmt.Println("\nTekan Enter untuk kembali ke menu utama")
+			fmt.Println("\nTekan Enter untuk kembali ke menu pinjam buku")
 			fmt.Scanln()
 		}
 	}
@@ -1118,7 +1111,7 @@ func PinjamMenu(dataPinjam *dataPinjamBuku, dataBuku *dataBuku) {
 
 func InputTanggal() tanggal {
 	var tgl tanggal
-	fmt.Print("\nMasukkan hari				: ")
+	fmt.Print("\nMasukkan tanggal			: ")
 	fmt.Scan(&tgl.hari)
 	fmt.Print("Masukkan bulan				: ")
 	fmt.Scan(&tgl.bulan)
@@ -1142,12 +1135,12 @@ func ValidasiTanggalPinjamDanKembali(tglPinjam, tglKembali tanggal) bool {
 	return false
 }
 
-// create data pinjam buku
-func CreateDataPinjamBuku(dataPinjam *dataPinjamBuku, dataBuku *dataBuku) {
+func AddDataPinjamBuku(dataPinjam *dataPinjamBuku, dataBuku *dataBuku) {
 	var isbn string
 	var pinjamBukuBaru pinjamBuku
 	var inputJumlahDataPinjamBuku int
 	var isBerhasil bool
+	var input string
 
 	isBerhasil = false
 
@@ -1181,10 +1174,21 @@ func CreateDataPinjamBuku(dataPinjam *dataPinjamBuku, dataBuku *dataBuku) {
 		fmt.Scanln()
 	}
 
+	fmt.Println()
+
 	fmt.Print("Masukkan ID Anggota			: ")
 	fmt.Scan(&pinjamBukuBaru.idAnggota)
 	fmt.Print("Masukkan jumlah buku yang akan dipinjam	: ")
-	fmt.Scan(&inputJumlahDataPinjamBuku)
+	fmt.Scan(&input)
+
+	inputJumlahDataPinjamBuku, err := strconv.Atoi(input)
+	for err != nil {
+		// Jika konversi gagal, tampilkan pesan error dan keluar dari fungsi
+		fmt.Println("\nInput jumlah data buku yang akan ditambahkan harus berupa angka. Silakan coba lagi.")
+		fmt.Scanln()
+		return
+	}
+
 	for i := 0; i < inputJumlahDataPinjamBuku; i++ {
 		fmt.Print("Masukkan ISBN				: ")
 		fmt.Scan(&isbn)
@@ -1234,7 +1238,7 @@ func CreateDataPinjamBuku(dataPinjam *dataPinjamBuku, dataBuku *dataBuku) {
 				}
 			}
 		} else {
-			fmt.Println("Maaf, buku dengan ISBN tersebut tidak dapat ditemukan")
+			fmt.Printf("\nMaaf, buku dengan ISBN \"%s\" tidak dapat ditemukan\n", isbn)
 		}
 	}
 	inputJumlahDataPinjamBuku++
@@ -1319,7 +1323,23 @@ func UpdateDataTanggalPinjamBuku(dataPinjam *dataPinjamBuku, dataBuku *dataBuku)
 	}
 }
 
-func DeleteDataPinjamBuku() {
+func DeleteDataPinjamBuku(dataPinjam *dataPinjamBuku) {
+	var indexFound int
+	var isbn string
+	fmt.Print("Masukkan ISBN Buku yang batal untuk dipinjam		: ")
+	fmt.Scan(&isbn)
+	indexFound = FindDataPinjamBukuByISBNWithSequentialSearch(*dataPinjam, isbn)
+	if indexFound != -1 {
+		for i := indexFound; i < jumlahDataPinjam-1; i++ {
+			(*dataPinjam)[i] = (*dataPinjam)[i+1]
+		}
+		jumlahDataPinjam--
+		fmt.Println("Data berhasil dihapus")
+		fmt.Scanln()
+	} else {
+		fmt.Println("Maaf, ISBN Buku tersebut tidak dapat ditemukan")
+		fmt.Scanln()
+	}
 }
 
 func HitungHariPinjam(tglPinjam, tglKembali tanggal) int {
@@ -1362,7 +1382,7 @@ func HitungHariPinjam(tglPinjam, tglKembali tanggal) int {
 func HitungTarifDanDenda(hariPinjam int) (tarif, denda float64) {
 	const batasHari = 7        // Misal batas pinjam 7 hari
 	const tarifHarian = 1000.0 // Tarif per hari
-	const dendaHarian = 200.0  // Denda per hari setelah batas hari
+	const dendaHarian = 500.0  // Denda per hari setelah batas hari
 
 	if hariPinjam <= batasHari {
 		tarif = float64(hariPinjam) * tarifHarian
@@ -1373,6 +1393,32 @@ func HitungTarifDanDenda(hariPinjam int) (tarif, denda float64) {
 	}
 	return tarif, denda
 }
+
+func Top5BukuTerfavorit(dataBuku *dataBuku) {
+	ViewTop5BukuTerfavorit()
+	if jumlahDataBuku == 0 {
+		fmt.Println("\nTidak ada data buku.")
+		fmt.Scanln()
+	} else {
+		// Bubble sort berdasarkan jumlahBukuDipinjam (descending)
+		for i := 0; i < jumlahDataBuku-1; i++ {
+			for j := 0; j < jumlahDataBuku-i-1; j++ {
+				if dataBuku[j].jumlahBukuDipinjam < dataBuku[j+1].jumlahBukuDipinjam {
+					dataBuku[j], dataBuku[j+1] = dataBuku[j+1], dataBuku[j]
+				}
+			}
+		}
+
+		fmt.Println("\n5 Buku Terfavorit:")
+		for i := 0; i < 5 && i < jumlahDataBuku; i++ {
+			buku := dataBuku[i]
+			fmt.Printf("Judul: %s, Penulis: %s, Penerbit: %s, Jumlah Dipinjam: %d\n", buku.judul, buku.penulis, buku.penerbit, buku.jumlahBukuDipinjam)
+		}
+		fmt.Scanln()
+	}
+}
+
+// func SortingTop5FavoritByInsertionSort()
 
 func FindDataPinjamBukuByISBNWithSequentialSearch(data dataPinjamBuku, isbn string) int {
 	var found int = -1
@@ -1386,19 +1432,6 @@ func FindDataPinjamBukuByISBNWithSequentialSearch(data dataPinjamBuku, isbn stri
 	return found
 }
 
-// func FindDataPinjamBukuByIdPinjamBukuWithSequentialSearch(data dataPinjamBuku, idPinjamBuku int) int {
-// 	var found int = -1
-// 	var i int
-// 	for i < jumlahDataBuku && found == -1 {
-// 		if idPinjamBuku == data[i].idPinjamBuku {
-// 			found = i
-// 		}
-// 		i++
-// 	}
-// 	return found
-// }
-
 func main() {
-	var dataAdmin dataAdmin
-	AdminMenu(&dataAdmin)
+	LoginMenu()
 }
