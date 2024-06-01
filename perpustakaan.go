@@ -366,7 +366,6 @@ func ShowDataBukuMenu(dataBuku *dataBuku, dataPinjam *dataPinjamBuku) {
 			fmt.Scanln()
 		}
 	}
-
 }
 
 func ShowDataBukuByKategoriMenu(dataBuku *dataBuku, dataPinjam *dataPinjamBuku) {
@@ -806,7 +805,7 @@ func DeleteDataBukuByJudul(data *dataBuku) {
 		}
 	}
 
-	if jumlahDataBuku < MAXBUKU && found {
+	if jumlahDataBuku < MAXBUKU {
 		fmt.Printf("\nSemua data buku dengan judul \"%s\" berhasil dihapus\n", judul)
 		fmt.Scanln()
 	} else {
@@ -837,7 +836,7 @@ func DeleteDataBukuByPenulis(data *dataBuku) {
 		}
 	}
 
-	if jumlahDataBuku < MAXBUKU && found {
+	if jumlahDataBuku < MAXBUKU {
 		fmt.Printf("\nSemua data buku dengan penulis \"%s\" berhasil dihapus\n", penulis)
 		fmt.Scanln()
 	} else {
@@ -864,9 +863,20 @@ func DeleteDataBukuByTahunTerbit(data *dataBuku) {
 		return
 	}
 
+	for i := 1; i < jumlahDataBuku; i++ {
+		temp := (*data)[i]
+		j := i
+		// Pindahkan elemen yang lebih besar dari temp ke satu posisi ke depan
+		for j > 0 && (*data)[j-1].tahunTerbit > temp.tahunTerbit {
+			(*data)[j] = (*data)[j-1]
+			j = j - 1
+		}
+		(*data)[j] = temp
+	}
+
 	found = true
 	for found {
-		index = FindDataBukuByTahunTerbitWithSequentialSearch(*data, tahunTerbit)
+		index = FindDataBukuByTahunTerbitWithBinarySearch(*data, tahunTerbit)
 		if index != -1 {
 			for i := index; i < jumlahDataBuku-1; i++ {
 				data[i] = data[i+1]
@@ -877,7 +887,7 @@ func DeleteDataBukuByTahunTerbit(data *dataBuku) {
 		}
 	}
 
-	if jumlahDataBuku < MAXBUKU && found {
+	if jumlahDataBuku < MAXBUKU {
 		fmt.Printf("\nSemua data buku dengan tahun terbit \"%d\" berhasil dihapus\n", tahunTerbit)
 		fmt.Scanln()
 	} else {
@@ -949,6 +959,26 @@ func FindDataBukuByISBNWithSequentialSearch(data dataBuku, isbn string) int {
 		}
 		i++
 	}
+	return found
+}
+
+func FindDataBukuByTahunTerbitWithBinarySearch(data dataBuku, tahunTerbit int) int {
+	var found int = -1
+	var kr int = 0
+	var kn int = jumlahDataBuku - 1
+	var med int
+
+	for kr <= kn && found == -1 {
+		med = (kr + kn) / 2
+		if tahunTerbit < data[med].tahunTerbit {
+			kn = med - 1
+		} else if tahunTerbit > data[med].tahunTerbit {
+			kr = med + 1
+		} else {
+			found = med
+		}
+	}
+
 	return found
 }
 
@@ -1084,11 +1114,11 @@ func ViewUpdateDataTanggalPinjamBuku() {
 	fmt.Println("==============================================")
 }
 
-func ViewHapusDataPinjamBuku() {
+func ViewDeleteDataPinjamBuku() {
 	clearScreen()
 
 	fmt.Println("=========================================")
-	fmt.Println("|      Hapus Data Peminjaman  Buku      |")
+	fmt.Println("|      Hapus Data Peminjaman  Buku     |")
 	fmt.Println("=========================================")
 }
 
@@ -1240,7 +1270,6 @@ func AddDataPinjamBuku(dataPinjam *dataPinjamBuku, dataBuku *dataBuku) {
 	fmt.Scanln()
 }
 
-// mencetak data buku yang di pinjam
 func ShowDataPinjamBuku(dataPinjam *dataPinjamBuku, dataBuku *dataBuku, idPinjam *pinjamBuku) {
 	if jumlahDataPinjam == 0 {
 		ViewShowDataPinjamBuku()
@@ -1319,6 +1348,7 @@ func UpdateDataTanggalPinjamBuku(dataPinjam *dataPinjamBuku, dataBuku *dataBuku)
 }
 
 func DeleteDataPinjamBuku(dataPinjam *dataPinjamBuku) {
+	ViewDeleteDataPinjamBuku()
 	var indexFound int
 	var isbn string
 	fmt.Print("Masukkan ISBN Buku yang batal untuk dipinjam		: ")
@@ -1329,10 +1359,10 @@ func DeleteDataPinjamBuku(dataPinjam *dataPinjamBuku) {
 			(*dataPinjam)[i] = (*dataPinjam)[i+1]
 		}
 		jumlahDataPinjam--
-		fmt.Println("Data berhasil dihapus")
+		fmt.Println("\nData berhasil dihapus")
 		fmt.Scanln()
 	} else {
-		fmt.Println("Maaf, ISBN Buku tersebut tidak dapat ditemukan")
+		fmt.Println("\nMaaf, ISBN Buku tersebut tidak dapat ditemukan")
 		fmt.Scanln()
 	}
 }
@@ -1371,7 +1401,6 @@ func HitungHariPinjam(tglPinjam, tglKembali tanggal) int {
 	}
 	return hariPinjam
 }
-
 
 func HitungTarifDanDenda(hariPinjam int) (tarif, denda float64) {
 	const batasHari = 7        // Misal batas pinjam 7 hari
