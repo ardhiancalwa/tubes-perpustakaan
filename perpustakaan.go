@@ -30,7 +30,6 @@ type buku struct {
 type pinjamBuku struct {
 	isbn         string
 	idAnggota    int
-	idPinjamBuku string
 	tgl_pinjam   tanggal
 	tgl_kembali  tanggal
 	denda        float64
@@ -711,37 +710,6 @@ func UpdateDataBuku(data *dataBuku) {
 	}
 }
 
-func DeleteDataBukuByKeyword(data *dataBuku) {
-	var kataKunci string
-	var index int
-	var found bool
-
-	ViewDeleteDataBuku()
-	fmt.Print("Masukkan kata kunci buku yang ingin dihapus: ")
-	fmt.Scan(&kataKunci)
-
-	found = true
-	for found {
-		index = FindDataBukuWithSequentialSearch(*data, kataKunci)
-		if index != -1 {
-			for i := index; i < jumlahDataBuku-1; i++ {
-				data[i] = data[i+1]
-			}
-			jumlahDataBuku--
-		} else {
-			found = false
-		}
-	}
-
-	if jumlahDataBuku < MAXBUKU {
-		fmt.Printf("\nSemua data buku dengan kata kunci \"%s\" berhasil dihapus\n", kataKunci)
-	} else {
-		fmt.Println("\nMaaf, buku dengan judul tersebut tidak dapat ditemukan")
-	}
-	fmt.Println("\nTekan Enter untuk kembali ke menu utama")
-	fmt.Scanln()
-}
-
 func DeleteAllDataBuku(dataBuku *dataBuku, dataPinjam *dataPinjamBuku) {
 	var input string
 	ViewDeleteDataBuku()
@@ -857,7 +825,6 @@ func DeleteDataBukuByTahunTerbit(data *dataBuku) {
 
 	tahunTerbit, err := strconv.Atoi(input)
 	for err != nil {
-		// Jika konversi gagal, tampilkan pesan error dan keluar dari fungsi
 		fmt.Println("\nInput tahun terbit harus berupa angka. Silakan coba lagi.")
 		fmt.Scanln()
 		return
@@ -866,7 +833,6 @@ func DeleteDataBukuByTahunTerbit(data *dataBuku) {
 	for i := 1; i < jumlahDataBuku; i++ {
 		temp := (*data)[i]
 		j := i
-		// Pindahkan elemen yang lebih besar dari temp ke satu posisi ke depan
 		for j > 0 && (*data)[j-1].tahunTerbit > temp.tahunTerbit {
 			(*data)[j] = (*data)[j-1]
 			j = j - 1
@@ -930,19 +896,6 @@ func FindDataWithSequentialSearch(data dataBuku, isbn string) int {
 	var i int
 	for i < jumlahDataBuku && found == -1 {
 		if isbn == data[i].isbn {
-			found = i
-		}
-		i++
-	}
-	return found
-}
-
-func FindDataBukuWithSequentialSearch(data dataBuku, kataKunci string) int {
-	var found int = -1
-	var i int
-	for i < jumlahDataBuku && found == -1 {
-		tahunTerbitString := fmt.Sprintf("%d", data[i].tahunTerbit)
-		if data[i].isbn == kataKunci || data[i].judul == kataKunci || data[i].penulis == kataKunci || data[i].penerbit == kataKunci || tahunTerbitString == kataKunci {
 			found = i
 		}
 		i++
@@ -1022,7 +975,6 @@ func SortingDataBukuByTahunTerbitByInsertionSort(data *dataBuku) {
 	for i := 1; i < jumlahDataBuku; i++ {
 		temp := (*data)[i]
 		j := i
-		// Pindahkan elemen yang lebih besar dari temp ke satu posisi ke depan
 		for j > 0 && (*data)[j-1].tahunTerbit < temp.tahunTerbit {
 			(*data)[j] = (*data)[j-1]
 			j = j - 1
@@ -1228,7 +1180,6 @@ func AddDataPinjamBuku(dataPinjam *dataPinjamBuku, dataBuku *dataBuku) {
 
 	inputJumlahDataPinjamBuku, err := strconv.Atoi(input)
 	for err != nil {
-		// Jika konversi gagal, tampilkan pesan error dan keluar dari fungsi
 		fmt.Println("\nInput jumlah data buku yang akan ditambahkan harus berupa angka. Silakan coba lagi.")
 		fmt.Scanln()
 		return
@@ -1370,21 +1321,17 @@ func DeleteDataPinjamBuku(dataPinjam *dataPinjamBuku) {
 func HitungHariPinjam(tglPinjam, tglKembali tanggal) int {
 	daysInMonth := [12]int{31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31}
 
-	// Check for leap year
 	if tglKembali.tahun%4 == 0 && (tglKembali.tahun%100 != 0 || tglKembali.tahun%400 == 0) {
-		daysInMonth[1] = 29 // February in a leap year
+		daysInMonth[1] = 29 
 	}
 
 	hariPinjam := 0
 
-	// Calculate days in the month of return date
 	if tglPinjam.bulan == tglKembali.bulan && tglPinjam.tahun == tglKembali.tahun {
 		hariPinjam = tglKembali.hari - tglPinjam.hari
 	} else {
-		// Calculate days from start date to the end of that month
 		hariPinjam += daysInMonth[tglPinjam.bulan-1] - tglPinjam.hari
 
-		// Add days for the months between
 		month := tglPinjam.bulan
 		year := tglPinjam.tahun
 		for !(month == tglKembali.bulan && year == tglKembali.tahun) {
@@ -1396,7 +1343,6 @@ func HitungHariPinjam(tglPinjam, tglKembali tanggal) int {
 			hariPinjam += daysInMonth[month-1]
 		}
 
-		// Add days in the return month
 		hariPinjam += tglKembali.hari
 	}
 	return hariPinjam
