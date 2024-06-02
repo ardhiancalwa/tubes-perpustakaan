@@ -1,5 +1,5 @@
 # Perpustakaan
-Tugas Besar Algoritma Pemograma
+Tugas Besar Algoritma Pemograman
 
 Anggota Kelompok :
 - Ardhian Calwa Nugraha (103012300404)
